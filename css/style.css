@@ -12,36 +12,42 @@
 .lead { font-size: 1.08rem; color: var(--text-muted); max-width: 640px; }
 .section-dark .lead { color: var(--text-cream); }
 
-/* Header */
+/* Header — Figma: fixed, rgba(27,45,27,0.97) blur(6px), h-20 (80px), FAO+FFF lockup left, nav right */
 .site-header {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(27,45,27,0.08);
+  position: fixed; top: 0; inset-inline: 0; z-index: 100;
+  background: rgba(27,45,27,0.97);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(240,234,224,0.12);
 }
-.site-header .inner { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); }
+.site-header .inner { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+.brand-lockup { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.brand-lockup .logo-fao { height: 48px; width: auto; object-fit: contain; max-width: 240px; display: block; }
+.brand-lockup .logo-sep { width: 1px; height: 32px; flex-shrink: 0; background: rgba(240,234,224,0.2); }
+.brand-lockup .logo-fff { height: 64px; width: auto; object-fit: contain; max-width: 300px; display: block; border-radius: 4px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.02em; }
 .brand-mark { width: 36px; height: 36px; border-radius: 10px; background: var(--forest); color: var(--gold); display: grid; place-items: center; font-family: "Fraunces", serif; font-size: 1rem; }
 .brand span { font-family: "Fraunces", serif; font-size: 1.05rem; }
 .nav { display: flex; align-items: center; gap: 2px; }
 .nav a {
-  padding: 8px 12px; border-radius: 999px; font-size: 0.88rem; font-weight: 500;
-  color: var(--text-muted); transition: background .2s, color .2s;
+  padding: 6px 12px; border-radius: 6px; font-family: "DM Sans", system-ui, sans-serif; font-size: 12px; letter-spacing: 0.06em; font-weight: 500;
+  color: rgba(240,234,224,0.68); transition: color .15s, background .15s;
 }
-.nav a:hover { background: rgba(27,45,27,0.06); color: var(--text); }
-.nav a.active { background: var(--forest); color: var(--white); }
-.nav-toggle { display: none; width: 40px; height: 40px; border: 1px solid rgba(27,45,27,0.12); background: var(--white); border-radius: 10px; cursor: pointer; }
+.nav a:hover { color: var(--cream); background: rgba(240,234,224,0.08); }
+.nav a.active { color: var(--gold); background: transparent; }
+body { padding-top: var(--header-h); }
+.nav-toggle { display: none; width: 40px; height: 40px; border: 1px solid rgba(240,234,224,0.18); background: rgba(255,255,255,0.08); color: var(--cream); border-radius: 10px; cursor: pointer; }
 .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after {
-  display: block; width: 16px; height: 2px; background: var(--forest); border-radius: 2px; position: relative; content: ""; margin: 0 auto;
+  display: block; width: 16px; height: 2px; background: var(--cream); border-radius: 2px; position: relative; content: ""; margin: 0 auto;
 }
 .nav-toggle span::before { position: absolute; top: -5px; left: 0; }
 .nav-toggle span::after { position: absolute; top: 5px; left: 0; }
 @media (max-width: 1024px) {
-  .nav { display: none; position: absolute; top: var(--header-h); left: 0; right: 0; background: var(--white); border-top: 1px solid rgba(27,45,27,0.08); flex-direction: column; align-items: stretch; padding: 12px 16px 20px; box-shadow: var(--shadow); }
+  .nav { display: none; position: absolute; top: var(--header-h); left: 0; right: 0; background: rgba(27,45,27,0.98); border-top: 1px solid rgba(240,234,224,0.12); flex-direction: column; align-items: stretch; padding: 12px 16px 20px; box-shadow: var(--shadow-strong); }
   .nav.open { display: flex; }
-  .nav a { padding: 12px 14px; border-radius: 10px; }
+  .nav a { padding: 12px 14px; border-radius: 10px; color: rgba(240,234,224,0.78); }
+  .nav a.active { color: var(--gold); background: rgba(240,234,224,0.08); }
   .nav-toggle { display: grid; place-items: center; }
-  .site-header { position: sticky; }
+  .site-header { position: fixed; }
 }
 
 /* Hero */
