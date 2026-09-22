@@ -1,0 +1,42 @@
+/* Design tokens — Forest Farm Facility */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --forest: #1B2D1B;
+  --forest-deep: #0d1f0d;
+  --forest-mid: #152815;
+  --forest-light: #1F4A1F;
+  --gold: #C4A44A;
+  --gold-soft: rgba(196,164,74,0.12);
+  --gold-border: rgba(196,164,74,0.18);
+  --cream: #F0EAE0;
+  --cream-warm: #FAF6EF;
+  --stone: #6B5B47;
+  --stone-dark: #7A5C12;
+  --white: #ffffff;
+  --text: #1B2D1B;
+  --text-muted: rgba(27,45,27,0.65);
+  --text-cream: rgba(240,234,224,0.9);
+  --radius: 14px;
+  --radius-lg: 20px;
+  --shadow: 0 8px 32px rgba(13,31,13,0.12);
+  --shadow-strong: 0 18px 48px rgba(13,31,13,0.22);
+  --header-h: 64px;
+  --content-w: 1280px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font: inherit; }
+h1,h2,h3,h4 { font-family: "Fraunces", Georgia, serif; font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; }
+.mono { font-family: "DM Mono", monospace; }

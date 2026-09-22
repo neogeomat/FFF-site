@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Catalog — Forest Farm Facility</title>
+<meta name="description" content="Products from forest producer organizations — honey, cacao, coffee, Amazonian fruits and timber."/>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<header class="site-header"><div class="container inner"><a class="brand" href="index.html"><span class="brand-mark">F</span><span>Forest Farm Facility</span></a><button class="nav-toggle" aria-label="Menu"><span></span></button><nav class="nav" id="siteNav"><a href="index.html">Home</a><a href="our-change.html">Our Change</a><a href="sustainable-management.html">Sustainable Management</a><a href="territories.html">Territories</a><a href="value-chains.html">Value Chains</a><a href="catalog.html">Catalog</a><a href="progress.html">Progress</a><a href="challenges.html">Challenges</a></nav></div></header>
+<div class="page-head"><div class="container"><p class="eyebrow">Catalog & Resources</p><h1>Beyond timber — products of the forest</h1><p class="lead">61 products from producer organizations. Filter by chain or search. Data lives in <code>data/products.json</code> — add rows without editing HTML.</p>
+<div class="filter-row">
+  <select id="catalogFilter" aria-label="Filter by chain"><option value="all">All chains</option><option value="coffee">Coffee</option><option value="cacao">Cacao</option><option value="honey">Honey</option><option value="amazon-fruits">Amazonian Fruits</option><option value="forest">Forest Products</option><option value="organic">Organic</option></select>
+  <input id="catalogSearch" type="search" placeholder="Search (e.g. honey, chocolate, coffee)" />
+  <a class="btn" style="border:1px solid rgba(27,45,27,0.15); background:var(--white)" href="assets/docs/CatalogoFFFBo.pdf" download>Download PDF (placeholder)</a>
+</div>
+</div></div>
+<section class="section"><div class="container">
+  <div class="grid-3">
+    <div class="card product-card" data-category="organic"><div class="kicker">Organic</div><h3>Vermicompost</h3><p>Community-produced organic fertilizer. 1 kg · 25 kg sack.</p><small class="muted">Soil health · Organic</small></div>
+    <div class="card product-card" data-category="amazon-fruits"><div class="kicker">Amazonian Fruits</div><h3>Majo Oil</h3><p>Cold-pressed majo palm oil. 250 ml · 500 ml.</p><small class="muted">Cold-pressed · Amazonian</small></div>
+    <div class="card product-card" data-category="amazon-fruits"><div class="kicker">Amazonian Fruits</div><h3>Cusi Oil</h3><p>Cusi palm oil for cooking and cosmetics. 120 ml · 250 ml.</p></div>
+    <div class="card product-card" data-category="forest"><div class="kicker">Forest Products</div><h3>Copaiba Oil</h3><p>Forest-harvested copaiba balsam. 30 ml · 100 ml.</p></div>
+    <div class="card product-card" data-category="honey"><div class="kicker">Honey · Chiquitania</div><h3>Paikita Honey</h3><p>High-altitude multifloral honey. 350 g jar.</p></div>
+    <div class="card product-card" data-category="amazon-fruits"><div class="kicker">Amazonian Fruits</div><h3>Porvenir Açaí Ice Cream</h3><p>Artisanal açaí ice cream. 500 ml.</p></div>
+    <div class="card product-card" data-category="cacao"><div class="kicker">Cacao</div><h3>Fine Dark Chocolate 70%</h3><p>Single-origin Chiquitania cacao. 80 g bar.</p></div>
+    <div class="card product-card" data-category="cacao"><div class="kicker">Cacao</div><h3>Cacao Butter</h3><p>Pure cacao butter. 100 g · 500 g.</p></div>
+    <div class="card product-card" data-category="coffee"><div class="kicker">Coffee · Yungas</div><h3>CELCCAR Coffee 250 g</h3><p>Shade-grown Yungas coffee, cooperative lot. 250 g · 1 kg.</p></div>
+    <div class="card product-card" data-category="honey"><div class="kicker">Honey</div><h3>Monkox Honey Selection</h3><p>Selection of Chiquitano honeys. Assorted jars.</p></div>
+    <div class="card product-card" data-category="amazon-fruits"><div class="kicker">Amazonian Fruits</div><h3>Açaí Under Canopy</h3><p>Under-canopy açaí pulp, frozen. 1 kg.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h3>Notes</h3><p>11 products shown as starter template — extend to 61 by adding entries in <code>data/products.json</code> and duplicating the <code>.product-card</code> block (keep <code>data-category</code> for filtering). Original Figma assets were 61 <code>.webp</code> under <code>/_components/v2/cb8c…/*.webp</code>; wire them to <code>assets/img/product-*.webp</code> when downloaded. Documents: <em>Organizational factsheets (PDF)</em> and <em>Technical sheets</em> go in <code>assets/docs/</code>.</p><p class="muted">To add a real image: <code>&lt;div class="card-media"&gt;&lt;img src="assets/img/product-majo.webp" alt="Majo Oil"&gt;&lt;/div&gt;</code> above the kicker.</p></div>
+</div></section>
+<footer class="site-footer"><div class="container footer-grid"><div><div class="brand" style="color:var(--cream)"><span class="brand-mark">F</span><span>Forest Farm Facility</span></div></div><div class="foot-links"><h4>Next</h4><a href="progress.html">Progress →</a><a href="value-chains.html">Value Chains</a></div><div class="foot-links"><h4>Resources</h4><a href="https://openknowledge.fao.org/handle/20.500.14283/cd8732es" target="_blank" rel="noopener">FAO Report</a></div></div></footer>
+<script src="js/main.js"></script>
+</body>
+</html>

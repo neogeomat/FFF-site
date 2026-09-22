@@ -1,0 +1,50 @@
+{
+  "brand": "Forest Farm Facility",
+  "tagline": "Productive Forests, Resilient Territories",
+  "stats": [
+    { "end": 3, "unit": "Regions", "label": "Amazon · Chiquitania · Yungas" },
+    { "end": 8, "unit": "Value Chains", "label": "Forest products" },
+    { "end": 34, "unit": "Organizations", "label": "Implementing partners" },
+    { "end": 49, "unit": "Agreements", "label": "Direct investment" }
+  ],
+  "marquee": ["Beekeeping", "Cacao", "Coffee", "Amazonian Fruits", "Forest Fruits", "Timber"],
+  "carousel": [
+    { "num": "01", "title": "Organizations transforming their territories", "body": "FFF strengthens forest and farm producer organizations with financing, technical assistance and accompaniment to drive their own sustainable development solutions." },
+    { "num": "02", "title": "Forest governance that works", "body": "Secure tenure, inclusive organizations and landscape planning put communities at the center of decisions." },
+    { "num": "03", "title": "Value chains that add value locally", "body": "From cacao and coffee to honey and Amazonian fruits — processing, quality and market access stay in the territory." },
+    { "num": "04", "title": "Resilience built with forests", "body": "Restoration, agroforestry and climate adaptation protect livelihoods and biodiversity." },
+    { "num": "05", "title": "Knowledge that travels", "body": "Peer learning among producer organizations spreads what works across regions and countries." }
+  ],
+  "explore": [
+    { "n": "01", "label": "Our Change", "desc": "How the direct investment model works.", "href": "our-change.html" },
+    { "n": "02", "label": "Sustainable Management", "desc": "Forests, biodiversity and production.", "href": "sustainable-management.html" },
+    { "n": "03", "label": "Territories", "desc": "Amazon, Yungas and Chiquitania.", "href": "territories.html" },
+    { "n": "04", "label": "Value Chains", "desc": "Coffee, cacao, honey and more.", "href": "value-chains.html" },
+    { "n": "05", "label": "Catalog", "desc": "Products from forest producer organizations.", "href": "catalog.html" },
+    { "n": "06", "label": "Progress & Challenges", "desc": "Results that tell stories and what comes next.", "href": "progress.html" }
+  ],
+  "voices": [
+    { "title": "High-quality Bolivian coffee for the world", "region": "Yungas", "href": "value-chains.html" },
+    { "title": "With water, life and biodiversity are conserved", "region": "Leco People", "href": "territories.html" },
+    { "title": "Better conditions for communities", "region": "Amazon", "href": "progress.html" }
+  ],
+  "axes": [
+    { "n": "01", "title": "Governance", "desc": "Strong, inclusive producer organizations with secure rights." },
+    { "n": "02", "title": "Value Chains", "desc": "Processing and market linkages that retain value locally." },
+    { "n": "03", "title": "Resilience", "desc": "Restoration, agroforestry and adaptation to climate change." },
+    { "n": "04", "title": "Services", "desc": "Business, technical and financial services shaped by producers." }
+  ],
+  "territories": [
+    { "id": "amazonia", "name": "Amazon", "subtitle": "Northern Bolivia · Beni & Pando · Climate-resilient landscapes", "bio": "Humid tropical forests with globally significant biodiversity. Home to Tacana, Ese Ejja and other Indigenous communities. Focus on Brazil nut, açaí, cacao and community forestry." },
+    { "id": "yungas", "name": "Yungas", "subtitle": "La Paz & Cochabamba · Mountain forests and coffee", "bio": "Cloud forests between 1,200–2,200 m where shade-grown coffee, cacao and honey link conservation and livelihoods. Strong cooperative tradition." },
+    { "id": "chiquitania", "name": "Chiquitania", "subtitle": "Santa Cruz · Dry forests and beekeeping", "bio": "Tropical dry forest and Chiquitano communities. Beekeeping, timber and non-timber products with a strong focus on fire management and restoration." }
+  ],
+  "valueChains": [
+    { "id": "coffee", "name": "Coffee", "territory": "Yungas" },
+    { "id": "cacao", "name": "Cacao", "territory": "Amazon & Yungas" },
+    { "id": "honey", "name": "Honey", "territory": "Chiquitania & Yungas" },
+    { "id": "amazon-fruits", "name": "Amazonian Fruits", "territory": "Amazon" },
+    { "id": "forest", "name": "Forest Products", "territory": "All territories" },
+    { "id": "organic", "name": "Organic & Agroecology", "territory": "All territories" }
+  ]
+}

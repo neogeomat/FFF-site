@@ -1,0 +1,80 @@
+[
+  {
+    "id": "fedpracao-cbba",
+    "sigla": "FEDPRACAO CBBA",
+    "name": "Departmental Federation of Agroecological Cacao Producers & Collectors",
+    "category": "cacao",
+    "location": "Chimoré, Shinahota, Villa Tunari, Puerto Villarroel (Cochabamba)",
+    "period": "Mar 2019–Mar 2020; May 2020–Jun 2021",
+    "message": "Strengthens productive and business capacities for high-quality cacao.",
+    "beneficiaries": 320,
+    "women": "38%",
+    "investment_fao_bob": 210000,
+    "achievements": ["Post-harvest center equipped", "Fermentation protocols", "Direct sales to La Paz"]
+  },
+  {
+    "id": "celccar",
+    "sigla": "CELCCAR",
+    "name": "Central de Cooperativas Agropecuarias de Caranavi",
+    "category": "coffee",
+    "location": "Caranavi (La Paz, Yungas)",
+    "period": "2019–2023",
+    "message": "Shade-grown Yungas coffee for specialty markets.",
+    "beneficiaries": 1800,
+    "women": "42%",
+    "investment_fao_bob": 480000,
+    "achievements": ["Cupping lab", "194 t coffee marketed", "Organic certification"]
+  },
+  {
+    "id": "anproca",
+    "sigla": "ANPROCA",
+    "name": "National Association of Coffee Producers",
+    "category": "coffee",
+    "location": "Yungas (La Paz)",
+    "period": "2020–2024",
+    "message": "Quality and market access for smallholder coffee.",
+    "beneficiaries": 650,
+    "women": "35%",
+    "investment_fao_bob": 310000,
+    "achievements": ["Tasting panel", "Export linkages"]
+  },
+  {
+    "id": "el-ceibo",
+    "sigla": "El Ceibo",
+    "name": "Central El Ceibo",
+    "category": "cacao",
+    "location": "Alto Beni (La Paz)",
+    "period": "2019–2024",
+    "message": "Flagship cacao cooperative — 1,355 producers, 729 t, USD 6.8 M sales.",
+    "beneficiaries": 1355,
+    "women": "45%",
+    "investment_fao_bob": 520000,
+    "achievements": ["Chocolate plant", "Organic & Fairtrade", "6.8M USD sales"]
+  },
+  {
+    "id": "aaicam",
+    "sigla": "AAICAM",
+    "name": "Aymara Association",
+    "category": "honey",
+    "location": "Chiquitania (Santa Cruz)",
+    "period": "2021–2023",
+    "message": "Beekeeping and forest protection.",
+    "beneficiaries": 95,
+    "women": "62%",
+    "investment_fao_bob": 180000,
+    "achievements": ["Queen breeding", "120 hives", "Multifloral honey"]
+  },
+  {
+    "id": "aprove",
+    "sigla": "APROVE",
+    "name": "Association of Forest Producers",
+    "category": "forest",
+    "location": "Pando",
+    "period": "2020–2022",
+    "message": "Brazil nut and timber community management.",
+    "beneficiaries": 210,
+    "women": "28%",
+    "investment_fao_bob": 250000,
+    "achievements": ["Management plan", "FSC progress"]
+  }
+]
