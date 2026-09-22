@@ -1,0 +1,248 @@
+/* StoryMaps — Bare Leaflet + horizontal strip (map left, scroller right) */
+.storymaps-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 0;
+  height: calc(100vh - var(--header-h));
+  min-height: 560px;
+  background: var(--cream-warm);
+  overflow: hidden;
+  border-top: 1px solid rgba(27,45,27,0.08);
+  border-bottom: 1px solid rgba(27,45,27,0.08);
+}
+.storymaps-map {
+  position: relative;
+  background: #e8f0e8;
+}
+.storymaps-map #storyMap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.storymaps-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border-left: 1px solid rgba(27,45,27,0.08);
+  overflow: hidden;
+}
+.storymaps-panel-head {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(27,45,27,0.08);
+  background: rgba(250,246,239,0.9);
+  backdrop-filter: blur(6px);
+}
+.storymaps-panel-head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.storymaps-panel-head p {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 48ch;
+}
+.storymaps-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.storymaps-controls .btn {
+  padding: 9px 14px;
+  font-size: 0.88rem;
+}
+.storymaps-controls .ctrl-spacer { flex: 1; }
+.storymaps-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.storymaps-dots button {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(27,45,27,0.18);
+  cursor: pointer;
+  padding: 0;
+  transition: width .25s, background .25s;
+}
+.storymaps-dots button.active {
+  width: 22px;
+  background: var(--gold);
+}
+.storymaps-progress {
+  height: 3px;
+  background: rgba(27,45,27,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.storymaps-progress i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--gold);
+  transition: width 400ms ease;
+}
+.storymaps-strip-wrap {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.storymaps-strip {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 16px 16px 18px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(27,45,27,0.18) transparent;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  align-items: stretch;
+}
+.storymaps-strip::-webkit-scrollbar { height: 6px; }
+.storymaps-strip::-webkit-scrollbar-thumb { background: rgba(27,45,27,0.18); border-radius: 999px; }
+.story-card {
+  flex: 0 0 360px;
+  min-width: 360px;
+  max-width: 360px;
+  scroll-snap-align: start;
+  background: var(--white);
+  border: 1px solid rgba(27,45,27,0.08);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.story-card:hover { border-color: rgba(196,164,74,0.5); transform: translateY(-2px); }
+.story-card.active { border-color: var(--gold); box-shadow: var(--shadow-strong); }
+.story-card-media {
+  aspect-ratio: 16/10;
+  background: #0e2410;
+  overflow: hidden;
+  position: relative;
+}
+.story-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s;
+}
+.story-card:hover .story-card-media img { transform: scale(1.04); }
+.story-card-media .badge {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-family: "DM Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(27,45,27,0.12);
+  border-radius: 999px;
+  padding: 4px 8px;
+}
+.story-card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.story-card-body h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.15;
+}
+.story-card-body .story-text {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.story-card-body .story-text.expanded {
+  -webkit-line-clamp: unset;
+  display: block;
+}
+.story-card-body .story-text h3 { font-size: 0.98rem; margin: 10px 0 6px; color: var(--forest); }
+.story-card-body .story-text ul { margin: 6px 0; padding-left: 18px; }
+.story-card-body .story-text p { margin: 6px 0; }
+.story-more {
+  margin-top: auto;
+  font-weight: 600;
+  font-size: 0.86rem;
+  color: var(--forest);
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+}
+.strip-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(27,45,27,0.12);
+  background: rgba(255,255,255,0.96);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.strip-nav.prev { left: 8px; }
+.strip-nav.next { right: 8px; }
+
+.map-autoplay-fab {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 600;
+  background: rgba(255,255,255,0.96);
+  border: 1px solid rgba(27,45,27,0.12);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 0.86rem;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.map-autoplay-fab.paused { background: var(--forest); color: var(--white); border-color: var(--forest); }
+.strip-nav:disabled { opacity: 0.35; pointer-events: none; }
+
+@media (max-width: 1024px) {
+  .storymaps-layout { grid-template-columns: 1fr; height: auto; }
+  .storymaps-map { height: 52vh; min-height: 380px; }
+  .story-card { flex: 0 0 78vw; min-width: 78vw; max-width: 78vw; }
+}
+@media (max-width: 560px) {
+  .story-card { flex: 0 0 86vw; min-width: 86vw; max-width: 86vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .storymaps-strip { scroll-behavior: auto; }
+  .story-card, .story-card-media img { transition: none; }
+}

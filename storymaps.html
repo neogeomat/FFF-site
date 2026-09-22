@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>Story Maps — Forest Farm Facility</title>
+  <meta name="description" content="Bare-Leaflet horizontal story maps — FFF success stories from Nepal, auto-playing left→right. Data in CSV." />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/storymaps.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container inner">
+    <a class="brand" href="index.html"><span class="brand-mark">F</span><span>Forest Farm Facility</span></a>
+    <button class="nav-toggle" aria-label="Menu"><span></span></button>
+    <nav class="nav" id="siteNav">
+      <a href="index.html">Home</a>
+      <a href="our-change.html">Our Change</a>
+      <a href="sustainable-management.html">Sustainable Management</a>
+      <a href="territories.html">Territories</a>
+      <a href="value-chains.html">Value Chains</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="progress.html">Progress</a>
+      <a href="challenges.html">Challenges</a>
+      <a href="storymaps.html" class="active">Story Maps</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container" style="padding:16px 24px 0">
+  <p class="eyebrow">Story Maps · Bare Leaflet + CSV</p>
+  <h1 style="margin:6px 0 8px">FFF Success Stories</h1>
+  <p class="lead" style="max-width:72ch">Map left, horizontal scroller right — auto-playing left→right. Data stays in <code>data/stories.csv</code> (copied from KnightLab <code>published.json</code>). Click a card, use ‹ ›, dots, or arrow keys; hover pauses autoplay.</p>
+</div>
+
+<section class="storymaps-layout" aria-label="Story map">
+  <div class="storymaps-map">
+    <div id="storyMap" role="application" aria-label="Story locations map"></div>
+    <button id="mapAutoplayBtn" class="map-autoplay-fab" aria-pressed="false" aria-label="Pause autoplay"><span class="ico" aria-hidden="true">❚❚</span><span class="label">Pause</span></button>
+  </div>
+  <div class="storymaps-panel">
+    <div class="storymaps-panel-head">
+      <h2 id="storyActiveTitle">Loading stories…</h2>
+      <p>Stories from <code>data/stories.csv</code> — edit the CSV, refresh. No build.</p>
+      <div class="storymaps-controls">
+        <div class="storymaps-dots" id="storyDots" aria-label="Story dots"></div>
+        <span class="ctrl-spacer"></span>
+        <small class="muted">Auto-play default · pause on map</small>
+      </div>
+      <div class="storymaps-progress" aria-hidden="true"><i id="storyProgress"></i></div>
+    </div>
+    <div class="storymaps-strip-wrap">
+      <button class="strip-nav prev" id="stripPrev" aria-label="Previous story">‹</button>
+      <div class="storymaps-strip" id="storyStrip" role="region" aria-roledescription="carousel" aria-label="Stories"></div>
+      <button class="strip-nav next" id="stripNext" aria-label="Next story">›</button>
+    </div>
+  </div>
+</section>
+
+<div class="container" style="padding:18px 24px 24px">
+  <div class="card" style="margin-top:14px">
+    <h3 style="margin:0 0 8px">Data source</h3>
+    <p class="muted" style="margin:0">Copied from <code>https://uploads.knightlab.com/storymapjs/…/published.json</code> to <code>data/stories.csv</code> (overview + empty story removed — 3 stories remain). Base64 image for “Award-winning coffee” saved to <code>assets/img/story-coffee.png</code>. Edit CSV to add stories; header: <code>slide_order,type,lat,lon,zoom,headline,text,media_url,media_caption,media_credit</code>.</p>
+    <p style="margin:10px 0 0"><a href="data/stories.csv" download style="color:var(--forest); font-weight:600">Download CSV →</a> <span class="muted" style="margin-left:12px">Header: slide_order,type,lat,lon,zoom,headline,text,media_url,media_caption,media_credit</span></p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="brand" style="color:var(--cream)"><span class="brand-mark">F</span><span>Forest Farm Facility</span></div>
+      <p style="color:var(--text-cream); margin-top:10px">A partnership of FAO, IIED, IUCN and AgriCord. Stories map uses Leaflet + OpenStreetMap; autoplay respects <code>prefers-reduced-motion</code>.</p>
+    </div>
+    <div class="foot-links"><h4>Explore</h4><a href="territories.html">Territories</a><a href="value-chains.html">Value Chains</a><a href="catalog.html">Catalog</a><a href="storymaps.html">Story Maps</a></div>
+    <div class="foot-links"><h4>Resources</h4><a href="data/stories.csv">Stories CSV</a><a href="https://openknowledge.fao.org/handle/20.500.14283/cd8732es" target="_blank" rel="noopener">FAO Report</a></div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/main.js"></script>
+<script src="js/storymaps.js"></script>
+</body>
+</html>

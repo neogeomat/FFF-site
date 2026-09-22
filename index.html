@@ -7,6 +7,8 @@
   <title>Forest Farm Facility — Productive Forests, Resilient Territories</title>
   <meta name="description" content="Explore sustainable forest management and resilient territories through stories, resources and value chains with the Forest & Farm Facility in Bolivia." />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/storymaps.css" />
 </head>
 <body>
 <header class="site-header">
@@ -25,6 +27,31 @@
     </nav>
   </div>
 </header>
+
+<!-- Story Map — first section (Bare Leaflet + CSV, map left + horizontal scroller right, autoplay default) -->
+<section class="storymaps-layout" aria-label="Story map">
+  <div class="storymaps-map">
+    <div id="storyMap" role="application" aria-label="Story locations map"></div>
+    <button id="mapAutoplayBtn" class="map-autoplay-fab" aria-pressed="false" aria-label="Pause autoplay"><span class="ico" aria-hidden="true">❚❚</span><span class="label">Pause</span></button>
+  </div>
+  <div class="storymaps-panel">
+    <div class="storymaps-panel-head">
+      <h2 id="storyActiveTitle">Loading stories…</h2>
+      <p>FFF success stories from <code>data/stories.csv</code> — map left, stories scroll left→right.</p>
+      <div class="storymaps-controls">
+        <div class="storymaps-dots" id="storyDots" aria-label="Story dots"></div>
+        <span class="ctrl-spacer"></span>
+        <small class="muted">Auto-play default · pause on map</small>
+      </div>
+      <div class="storymaps-progress" aria-hidden="true"><i id="storyProgress"></i></div>
+    </div>
+    <div class="storymaps-strip-wrap">
+      <button class="strip-nav prev" id="stripPrev" aria-label="Previous story">‹</button>
+      <div class="storymaps-strip" id="storyStrip" role="region" aria-roledescription="carousel" aria-label="Stories"></div>
+      <button class="strip-nav next" id="stripNext" aria-label="Next story">›</button>
+    </div>
+  </div>
+</section>
 
 <section class="hero" id="home">
   <div class="hero-media" aria-hidden="true">
@@ -162,5 +189,7 @@ window.__CAROUSEL__ = [
 ];
 </script>
 <script src="js/main.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/storymaps.js"></script>
 </body>
 </html>
