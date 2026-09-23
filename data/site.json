@@ -2,46 +2,266 @@
   "brand": "Forest Farm Facility",
   "tagline": "Productive Forests, Resilient Territories",
   "stats": [
-    { "end": 5, "unit": "Provinces", "label": "Bagmati · Gandaki · Lumbini · Madhesh · Sudurpashchim" },
-    { "end": 9, "unit": "Value Chains", "label": "Timur · Vegetables · Dairy · NTFP" },
-    { "end": 68, "unit": "Organizations", "label": "Implementing partners" },
-    { "end": 73, "unit": "Agreements", "label": "Direct investment (LoA + DBG)" }
+    {
+      "end": 5,
+      "unit": "Provinces",
+      "label": "Bagmati · Gandaki · Lumbini · Madhesh · Sudurpashchim"
+    },
+    {
+      "end": 26,
+      "unit": "Value Chains",
+      "label": "Non-timber forest products · Dairy · Agri products · Vegetables"
+    },
+    {
+      "end": 68,
+      "unit": "Organizations",
+      "label": "Implementing partners"
+    },
+    {
+      "end": 73,
+      "unit": "Agreements",
+      "label": "Direct investment (LoA + DBG)"
+    }
   ],
-  "marquee": ["Timur", "Vegetables", "Dairy", "Bamboo", "Sal Leaf", "NTFP", "Turmeric", "Allo"],
+  "marquee": [
+    "Non-timber forest products",
+    "Dairy",
+    "Agri products",
+    "Vegetables",
+    "Fish",
+    "PGS",
+    "Sal leaf plates",
+    "Timber"
+  ],
   "carousel": [
-    { "num": "01", "title": "Organizations transforming their territories", "body": "FFF strengthens forest and farm producer organizations with financing, technical assistance and accompaniment to drive their own sustainable development solutions." },
-    { "num": "02", "title": "Forest governance that works", "body": "Secure tenure, inclusive organizations and landscape planning put communities at the center of decisions." },
-    { "num": "03", "title": "Value chains that add value locally", "body": "From Timur and vegetables to dairy and NTFP — processing, quality and market access stay in the territory." },
-    { "num": "04", "title": "Resilience built with forests", "body": "Restoration, agroforestry and climate adaptation protect livelihoods and biodiversity." },
-    { "num": "05", "title": "Knowledge that travels", "body": "Peer learning among producer organizations spreads what works across regions and countries." }
+    {
+      "num": "01",
+      "title": "Organizations transforming their territories",
+      "body": "FFF strengthens forest and farm producer organizations with financing, technical assistance and accompaniment to drive their own sustainable development solutions."
+    },
+    {
+      "num": "02",
+      "title": "Forest governance that works",
+      "body": "Secure tenure, inclusive organizations and landscape planning put communities at the center of decisions."
+    },
+    {
+      "num": "03",
+      "title": "Value chains that add value locally",
+      "body": "From Timur and vegetables to dairy and NTFP — processing, quality and market access stay in the territory."
+    },
+    {
+      "num": "04",
+      "title": "Resilience built with forests",
+      "body": "Restoration, agroforestry and climate adaptation protect livelihoods and biodiversity."
+    },
+    {
+      "num": "05",
+      "title": "Knowledge that travels",
+      "body": "Peer learning among producer organizations spreads what works across regions and countries."
+    }
   ],
   "explore": [
-    { "n": "01", "label": "Our Change", "desc": "How the direct investment model works.", "href": "our-change.html" },
-    { "n": "02", "label": "Sustainable Management", "desc": "Forests, biodiversity and production.", "href": "sustainable-management.html" },
-    { "n": "03", "label": "Value Chains", "desc": "Timur, vegetables, dairy and NTFP.", "href": "value-chains.html" },
-    { "n": "04", "label": "Catalog", "desc": "Products from forest producer organizations.", "href": "catalog.html" },
-    { "n": "05", "label": "Progress & Challenges", "desc": "Results that tell stories and what comes next.", "href": "progress.html" }
+    {
+      "n": "01",
+      "label": "Our Change",
+      "desc": "How the direct investment model works.",
+      "href": "our-change.html"
+    },
+    {
+      "n": "02",
+      "label": "Sustainable Management",
+      "desc": "Forests, biodiversity and production.",
+      "href": "sustainable-management.html"
+    },
+    {
+      "n": "03",
+      "label": "Value Chains",
+      "desc": "Timur, vegetables, dairy and NTFP.",
+      "href": "value-chains.html"
+    },
+    {
+      "n": "04",
+      "label": "Catalog",
+      "desc": "Products from forest producer organizations.",
+      "href": "catalog.html"
+    },
+    {
+      "n": "05",
+      "label": "Progress & Challenges",
+      "desc": "Results that tell stories and what comes next.",
+      "href": "progress.html"
+    }
   ],
   "voices": [
-    { "title": "From fire hazard to green gold — biofertiliser in Nawalpur", "region": "Nawalpur, Gandaki", "href": "storymaps.html" },
-    { "title": "Woodcarving empowers women in Makwanpur", "region": "Makwanpur, Bagmati", "href": "storymaps.html" },
-    { "title": "Award-winning coffee transforms lives", "region": "Kavre, Bagmati", "href": "storymaps.html" }
+    {
+      "title": "From fire hazard to green gold — biofertiliser in Nawalpur",
+      "region": "Nawalpur, Gandaki",
+      "href": "storymaps.html"
+    },
+    {
+      "title": "Woodcarving empowers women in Makwanpur",
+      "region": "Makwanpur, Bagmati",
+      "href": "storymaps.html"
+    },
+    {
+      "title": "Award-winning coffee transforms lives",
+      "region": "Kavre, Bagmati",
+      "href": "storymaps.html"
+    }
   ],
   "axes": [
-    { "n": "01", "title": "Governance", "desc": "Strong, inclusive producer organizations with secure rights." },
-    { "n": "02", "title": "Value Chains", "desc": "Processing and market linkages that retain value locally." },
-    { "n": "03", "title": "Resilience", "desc": "Restoration, agroforestry and adaptation to climate change." },
-    { "n": "04", "title": "Services", "desc": "Business, technical and financial services shaped by producers." }
+    {
+      "n": "01",
+      "title": "Governance",
+      "desc": "Strong, inclusive producer organizations with secure rights."
+    },
+    {
+      "n": "02",
+      "title": "Value Chains",
+      "desc": "Processing and market linkages that retain value locally."
+    },
+    {
+      "n": "03",
+      "title": "Resilience",
+      "desc": "Restoration, agroforestry and adaptation to climate change."
+    },
+    {
+      "n": "04",
+      "title": "Services",
+      "desc": "Business, technical and financial services shaped by producers."
+    }
   ],
   "territories": [],
   "valueChains": [
-    { "id": "timur", "name": "Timur", "territory": "Bagmati" },
-    { "id": "vegetables", "name": "Vegetables", "territory": "Bagmati · Gandaki" },
-    { "id": "dairy", "name": "Dairy", "territory": "Bagmati" },
-    { "id": "ntfp", "name": "NTFP", "territory": "Gandaki · Lumbini" },
-    { "id": "bamboo", "name": "Bamboo", "territory": "Lumbini" },
-    { "id": "sal-leaf", "name": "Sal Leaf", "territory": "Bagmati" },
-    { "id": "furniture", "name": "Furniture & Timber", "territory": "Madhesh" },
-    { "id": "herbal", "name": "Herbal & Allo", "territory": "Sudurpashchim" }
+    {
+      "id": "non-timber-forest-products",
+      "name": "Non-timber forest products",
+      "territory": "Nepal · Bagmati"
+    },
+    {
+      "id": "dairy",
+      "name": "Dairy",
+      "territory": "Bagmati · Madhesh"
+    },
+    {
+      "id": "agri-products",
+      "name": "Agri products",
+      "territory": "Bagmati · Gandaki"
+    },
+    {
+      "id": "vegetables",
+      "name": "Vegetables",
+      "territory": "Bagmati"
+    },
+    {
+      "id": "fish",
+      "name": "Fish",
+      "territory": "Sudurpashchim · Bagmati"
+    },
+    {
+      "id": "pgs",
+      "name": "PGS",
+      "territory": "Bagmati · Nepal"
+    },
+    {
+      "id": "sal-leaf-plates",
+      "name": "Sal leaf plates",
+      "territory": "Nepal · Lumbini"
+    },
+    {
+      "id": "timber",
+      "name": "Timber",
+      "territory": "Bagmati · Lumbini"
+    },
+    {
+      "id": "timur",
+      "name": "Timur",
+      "territory": "Bagmati · Nepal"
+    },
+    {
+      "id": "bamboo",
+      "name": "Bamboo",
+      "territory": "Lumbini · Nepal"
+    },
+    {
+      "id": "honey",
+      "name": "Honey",
+      "territory": "Bagmati · Lumbini"
+    },
+    {
+      "id": "nursery",
+      "name": "Nursery",
+      "territory": "Lumbini · Bagmati"
+    },
+    {
+      "id": "ginger",
+      "name": "Ginger",
+      "territory": "Madhesh"
+    },
+    {
+      "id": "herbal-products",
+      "name": "Herbal products",
+      "territory": "Nepal · Gandaki"
+    },
+    {
+      "id": "turmeric",
+      "name": "Turmeric",
+      "territory": "Nepal · Bagmati"
+    },
+    {
+      "id": "allo",
+      "name": "Allo",
+      "territory": "Nepal"
+    },
+    {
+      "id": "amala",
+      "name": "Amala",
+      "territory": "Madhesh"
+    },
+    {
+      "id": "biofertilizer",
+      "name": "Biofertilizer",
+      "territory": "Gandaki"
+    },
+    {
+      "id": "cinnamon",
+      "name": "Cinnamon",
+      "territory": "Gandaki"
+    },
+    {
+      "id": "essential-oil",
+      "name": "Essential Oil",
+      "territory": "Nepal"
+    },
+    {
+      "id": "fertiliser",
+      "name": "Fertiliser",
+      "territory": "Gandaki"
+    },
+    {
+      "id": "furniture",
+      "name": "Furniture",
+      "territory": "Nepal"
+    },
+    {
+      "id": "handicraft",
+      "name": "Handicraft",
+      "territory": "Madhesh"
+    },
+    {
+      "id": "handicrafts",
+      "name": "Handicrafts",
+      "territory": "Bagmati"
+    },
+    {
+      "id": "lime",
+      "name": "Lime",
+      "territory": "Gandaki"
+    },
+    {
+      "id": "silage",
+      "name": "Silage",
+      "territory": "Nepal"
+    }
   ]
 }
