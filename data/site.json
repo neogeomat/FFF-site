@@ -8,9 +8,9 @@
       "label": "Bagmati · Gandaki · Lumbini · Madhesh · Sudurpashchim"
     },
     {
-      "end": 26,
+      "end": 23,
       "unit": "Value Chains",
-      "label": "Non-timber forest products · Dairy · Agri products · Vegetables"
+      "label": "Non-timber forest products · Dairy · Vegetables · Agri products"
     },
     {
       "end": 68,
@@ -26,8 +26,8 @@
   "marquee": [
     "Non-timber forest products",
     "Dairy",
-    "Agri products",
     "Vegetables",
+    "Agri products",
     "Fish",
     "PGS",
     "Sal leaf plates",
@@ -87,9 +87,9 @@
     },
     {
       "n": "05",
-      "label": "Progress & Challenges",
-      "desc": "Results that tell stories and what comes next.",
-      "href": "progress.html"
+      "label": "Web Map",
+      "desc": "Interactive grantee map — explore organizations across Nepal.",
+      "href": "Webmap/index.html"
     }
   ],
   "voices": [
@@ -144,14 +144,14 @@
       "territory": "Bagmati · Madhesh"
     },
     {
-      "id": "agri-products",
-      "name": "Agri products",
-      "territory": "Bagmati · Gandaki"
-    },
-    {
       "id": "vegetables",
       "name": "Vegetables",
       "territory": "Bagmati"
+    },
+    {
+      "id": "agri-products",
+      "name": "Agri products",
+      "territory": "Bagmati · Gandaki"
     },
     {
       "id": "fish",
@@ -184,6 +184,11 @@
       "territory": "Lumbini · Nepal"
     },
     {
+      "id": "handicraft",
+      "name": "Handicraft",
+      "territory": "Nepal · Bagmati"
+    },
+    {
       "id": "honey",
       "name": "Honey",
       "territory": "Bagmati · Lumbini"
@@ -192,6 +197,11 @@
       "id": "nursery",
       "name": "Nursery",
       "territory": "Lumbini · Bagmati"
+    },
+    {
+      "id": "fertiliser",
+      "name": "Fertiliser",
+      "territory": "Gandaki"
     },
     {
       "id": "ginger",
@@ -219,11 +229,6 @@
       "territory": "Madhesh"
     },
     {
-      "id": "biofertilizer",
-      "name": "Biofertilizer",
-      "territory": "Gandaki"
-    },
-    {
       "id": "cinnamon",
       "name": "Cinnamon",
       "territory": "Gandaki"
@@ -232,26 +237,6 @@
       "id": "essential-oil",
       "name": "Essential Oil",
       "territory": "Nepal"
-    },
-    {
-      "id": "fertiliser",
-      "name": "Fertiliser",
-      "territory": "Gandaki"
-    },
-    {
-      "id": "furniture",
-      "name": "Furniture",
-      "territory": "Nepal"
-    },
-    {
-      "id": "handicraft",
-      "name": "Handicraft",
-      "territory": "Madhesh"
-    },
-    {
-      "id": "handicrafts",
-      "name": "Handicrafts",
-      "territory": "Bagmati"
     },
     {
       "id": "lime",

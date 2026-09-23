@@ -7,28 +7,38 @@
   const lead = () => document.getElementById('catalogLead');
   const empty = () => document.getElementById('catalogEmpty');
 
-  // Icons per subcategory — reuse Webmap palette, extend for Nepal splits
+  // Icons per subcategory — reuse Webmap palette, unified canonicals: Fertiliser (not Biofertilizer), Handicraft (not Handicrafts/Furniture/Wooden)
   const COMMODITY_ICON = {
     'Non-timber forest products': '🍄', 'Dairy': '🥛', 'Agri products': '🥬', 'Vegetables': '🥬',
     'Fish': '🐟', 'PGS': '🌱', 'Sal leaf plates': '🍃', 'Timber': '🪵', 'Timur': '🌶️',
     'Bamboo': '🎋', 'Honey': '🍯', 'Nursery': '🌱', 'Ginger': '🫚', 'Herbal products': '🌿',
-    'Turmeric': '🟡', 'Allo': '🧵', 'Amala': '🍋', 'Biofertilizer': '🧪', 'Cinnamon': '🌿',
-    'Essential Oil': '🧴', 'Fertiliser': '🧪', 'Furniture': '🪑', 'Handicraft': '🎨',
-    'Handicrafts': '🎨', 'Lime': '🍋', 'Silage': '🌾', 'Unclassified': '❓'
+    'Turmeric': '🟡', 'Allo': '🧵', 'Amala': '🍋', 'Fertiliser': '🧪', 'Cinnamon': '🌿',
+    'Essential Oil': '🧴', 'Handicraft': '🎨', 'Lime': '🍋', 'Silage': '🌾', 'Unclassified': '❓'
   };
   const COMMODITY_COLOR = {
     'Non-timber forest products': '#1abc9c', 'Dairy': '#2980b9', 'Agri products': '#27ae60',
     'Vegetables': '#2ecc71', 'Fish': '#3498db', 'PGS': '#27ae60', 'Sal leaf plates': '#1e8449',
     'Timber': '#6d4c41', 'Timur': '#c0392b', 'Bamboo': '#27ae60', 'Honey': '#f39c12',
     'Nursery': '#16a085', 'Ginger': '#e67e22', 'Herbal products': '#16a085', 'Turmeric': '#f1c40f',
-    'Allo': '#8e44ad', 'Amala': '#f1c40f', 'Biofertilizer': '#8e44ad', 'Cinnamon': '#16a085',
-    'Essential Oil': '#8e44ad', 'Fertiliser': '#8e44ad', 'Furniture': '#d35400',
-    'Handicraft': '#d35400', 'Handicrafts': '#d35400', 'Lime': '#a3e635', 'Silage': '#f39c12',
+    'Allo': '#8e44ad', 'Amala': '#f1c40f', 'Fertiliser': '#8e44ad', 'Cinnamon': '#16a085',
+    'Essential Oil': '#8e44ad', 'Handicraft': '#d35400', 'Lime': '#a3e635', 'Silage': '#f39c12',
     'Unclassified': '#95a5a6'
   };
+  // Canonical aliases: treat alternate spellings as same
+  const SUB_ALIAS = {
+    'biofertilizer': 'Fertiliser', 'bio-fertilizer': 'Fertiliser', 'bio fertiliser': 'Fertiliser',
+    'fertiliser': 'Fertiliser', 'fertilizer': 'Fertiliser',
+    'handicrafts': 'Handicraft', 'handicraft': 'Handicraft', 'wooden handicraft': 'Handicraft', 'wooden handicrafts': 'Handicraft', 'furniture': 'Handicraft'
+  };
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const canon = s => {
+    if (!s) return 'Unclassified';
+    const low=s.trim().toLowerCase();
+    return SUB_ALIAS[low] || s;
+  };
   const getMeta = s => {
-    const key = s && COMMODITY_ICON[s] ? s : 'Unclassified';
+    const c=canon(s);
+    const key = c && COMMODITY_ICON[c] ? c : 'Unclassified';
     return { icon: COMMODITY_ICON[key], color: COMMODITY_COLOR[key], label: key };
   };
 
@@ -65,7 +75,7 @@
     });
     g.appendChild(frag);
     // update lead
-    if(lead()) lead().textContent=`${products.length} products from 26 subcategories — 68 organizations · 73 grants. Filter by chain or search. Data from Webmap/data/Grantees.combined.csv.`;
+    if(lead()) lead().textContent=`${products.length} products — 68 organizations · 73 grants. Filter by chain or search.`;
     // populate filter options (keep All)
     const sel=filterSel(); if(sel){
       // preserve All
@@ -116,7 +126,8 @@
         const row=rows[r];
         if(!row||row.every(v=>(v||'').trim()==='')) continue;
         const get=k=>{ const i=idx(k); return i>=0&&i<row.length?row[i]:''; };
-        const sub=(get('subcategory')||'Unclassified').trim() || 'Unclassified';
+        const rawSub=(get('subcategory')||'Unclassified').trim() || 'Unclassified';
+        const sub=canon(rawSub);
         const ent=(get('enterprise_commodity')||'').trim();
         const grant=(get('grant_title')||'').trim();
         const org=(get('org_name_geojson')||'').trim();
