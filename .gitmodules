@@ -1,0 +1,4 @@
+[submodule "Webmap"]
+	path = Webmap
+	url = https://github.com/neogeomat/FFF-webmap.git
+	branch = main
