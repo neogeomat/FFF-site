@@ -10,8 +10,12 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="Webmap/css/map.css" />
   <style>
+    html, body { height:auto !important; overflow:visible !important; overflow-y:auto !important; }
+    body.sankey-page { display:block !important; height:auto !important; min-height:100vh; overflow:visible !important; overflow-y:auto !important; }
     .sankey-page { padding-top: var(--header-h, 80px); }
     .sankey-page .page-head { padding: 28px 0 18px; margin-top: 0; }
+    .sankey-page .sankey-row { overflow:visible; }
+    .sankey-page .sankey-wrap { overflow:visible; }
     #sankeyScopeBar { margin-top: 12px; }
     /* Webmap-like selects + value pills below — fit six in one line */
     .sankey-cols { display:flex; flex-wrap:nowrap; gap:8px; margin:12px 0; }
