@@ -82,7 +82,9 @@
   </div>
   <div class="sankey-row" style="flex-wrap:wrap;">
     <div class="sankey-table-wrap" style="flex:1 0 100%; min-width:100%;">
-      <table id="sankeyTable" aria-label="Investment flow data table" role="table">
+      <h2 id="sankeyTableTitle" style="font-size:1.25rem; margin:0 0 8px; font-family:Fraunces, Georgia, serif;">Flow data — tabular view</h2>
+      <p id="sankeyTableDesc" class="muted" style="font-size:0.88rem; margin:0 0 10px;">Same data as the diagrams above, with totals and share. Use column selects above to change dimensions.</p>
+      <table id="sankeyTable" aria-labelledby="sankeyTableTitle" aria-describedby="sankeyTableDesc" role="table">
         <caption class="sr-only" style="position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden;">Tabular representation of Investment flow data — same data as diagrams above. Use column selects to change dimensions.</caption>
         <thead><tr><th scope="col">Flow data</th></tr></thead>
         <tbody><tr class="empty"><td>Loading…</td></tr></tbody>
