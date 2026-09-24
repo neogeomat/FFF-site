@@ -1,6 +1,8 @@
 // Catalog — data-driven from Webmap/data/Grantees.combined.csv, 26 subcategories, icons per subcategory (reuse Webmap COMMODITY_ICON/COLOR)
 (() => {
-  const CSV_URL = 'Webmap/data/Grantees.combined.csv';
+  const PRIMARY_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_WBjatNB23_S8ilmTMZt7ka3WiDEVxN02zXC-3jRZyxhcKGiOSaYcACNtX3drkactW5QH5E7TALZC/pub?gid=1996981092&single=true&output=csv';
+  const FALLBACK_CSV = 'Webmap/data/Grantees.combined.csv';
+  const CSV_URL = PRIMARY_CSV;
   const grid = () => document.getElementById('catalogGrid');
   const filterSel = () => document.getElementById('catalogFilter');
   const searchInput = () => document.getElementById('catalogSearch');
@@ -110,12 +112,22 @@
     if(empty()) empty().classList.toggle('hidden', visible!==0);
   }
 
+  async function fetchCsvWithFallback(){
+    try{
+      const r=await fetch(PRIMARY_CSV,{cache:'no-cache'});
+      if(!r.ok) throw new Error('primary '+r.status);
+      return await r.text();
+    }catch(e){
+      console.warn('primary Grantees CSV failed, falling back to local', e);
+      const r2=await fetch(FALLBACK_CSV,{cache:'no-cache'});
+      if(!r2.ok) throw new Error(`CSV fetch ${r2.status} ${FALLBACK_CSV}`);
+      return await r2.text();
+    }
+  }
   async function load(){
     try{
-      const res=await fetch(CSV_URL,{cache:'no-cache'});
-      if(!res.ok) throw new Error(`CSV fetch ${res.status} ${CSV_URL}`);
-      const text=await res.text();
-      const rows=parseCsv(text);
+      const text=await fetchCsvWithFallback();
+      const rows=parseCsv(text.replace(/^\uFEFF/,''));
       if(!rows.length) throw new Error('Empty CSV');
       const headers=rows[0].map(h=>h.trim());
       const idx=k=>headers.indexOf(k);

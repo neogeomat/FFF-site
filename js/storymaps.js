@@ -1,7 +1,9 @@
 // Bare Leaflet + horizontal strip — CSV backed, autoplay L→R
 // CSV: data/stories.csv with headers slide_order,type,lat,lon,zoom,headline,text,media_url,media_caption,media_credit
 (() => {
-  const CSV_URL = 'data/stories.csv';
+  const PRIMARY_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_WBjatNB23_S8ilmTMZt7ka3WiDEVxN02zXC-3jRZyxhcKGiOSaYcACNtX3drkactW5QH5E7TALZC/pub?gid=345737457&single=true&output=csv';
+  const FALLBACK_CSV = 'data/stories.csv';
+  const CSV_URL = PRIMARY_CSV;
   const AUTOPLAY_MS = 5200;
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => [...r.querySelectorAll(s)];
@@ -192,10 +194,17 @@
       body.appendChild(textDiv);
       if (s.text && s.text.length>420) {
         const more = el('button','story-more','Show more');
+        more.setAttribute('aria-expanded','false');
+        more.setAttribute('aria-controls',`story-text-${i}`);
+        textDiv.id=`story-text-${i}`;
         more.addEventListener('click',(e)=>{
           e.stopPropagation();
           const expanded = textDiv.classList.toggle('expanded');
           more.textContent = expanded ? 'Show less' : 'Show more';
+          more.setAttribute('aria-expanded', String(expanded));
+          // keep preview logic: do not reset autoplay, keep 5-line clamp when collapsed
+          // keep button visible after expand by scrolling text into view but not card
+          if(expanded) textDiv.scrollTop=0;
         });
         body.appendChild(more);
       }
@@ -250,11 +259,21 @@
     });
   }
 
+  async function fetchCsvWithFallback(){
+    try{
+      const r = await fetch(PRIMARY_CSV, { cache: 'no-cache' });
+      if(!r.ok) throw new Error('primary '+r.status);
+      return await r.text();
+    }catch(e){
+      console.warn('primary Stories CSV failed, falling back to local', e);
+      const r2 = await fetch(FALLBACK_CSV, { cache: 'no-cache' });
+      if(!r2.ok) throw new Error(`CSV fetch ${r2.status} ${FALLBACK_CSV}`);
+      return await r2.text();
+    }
+  }
   async function loadCsv(){
-    const res = await fetch(CSV_URL, { cache: 'no-cache' });
-    if(!res.ok) throw new Error(`CSV fetch ${res.status} ${CSV_URL}`);
-    const text = await res.text();
-    const rows = parseCsv(text);
+    const text = await fetchCsvWithFallback();
+    const rows = parseCsv(text.replace(/^\uFEFF/,''));
     return csvToSlides(rows);
   }
 

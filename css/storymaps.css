@@ -178,6 +178,10 @@
 .story-card-body .story-text.expanded {
   -webkit-line-clamp: unset;
   display: block;
+  max-height: 52vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
 }
 .story-card-body .story-text h3 { font-size: 0.98rem; margin: 10px 0 6px; color: var(--forest); }
 .story-card-body .story-text ul { margin: 6px 0; padding-left: 18px; }
