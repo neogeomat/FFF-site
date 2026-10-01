@@ -58,6 +58,9 @@
         media_credit: get('media_credit')||'',
       });
     }
+    // Sheet row order is the strip order, but sort by slide_order anyway so a reordered sheet
+    // cannot silently reorder the strip (slide_order == the 1-based badge number).
+    out.sort((a,b)=> a.slide_order - b.slide_order);
     return out;
   }
 
@@ -181,14 +184,14 @@
         ph.textContent = s.type==='overview' ? 'FFF Success Stories' : 'Story';
         mediaWrap.appendChild(ph);
       }
-      const badge = el('span','badge', s.type==='overview' ? 'Overview' : `Story ${i}`);
+      const badge = el('span','badge', s.type==='overview' ? 'Overview' : `Story ${i+1}`);
       mediaWrap.appendChild(badge);
       card.appendChild(mediaWrap);
       const body = el('div','story-card-body');
       body.appendChild(el('h3',null, escapeHtml(s.headline) || (s.type==='overview' ? 'FFF Success Stories — Nepal' : '')));
       const meta = el('div','kicker');
       if (s.lat!=null && s.lon!=null) meta.textContent = `${s.lat.toFixed(3)}, ${s.lon.toFixed(3)}${s.zoom ? ' · z'+s.zoom:''}`;
-      else meta.textContent = s.type==='overview' ? '4 stories · Nawalpur & Makwanpur' : '';
+      else meta.textContent = s.type==='overview' ? `${slidesData.length} stories · community forest enterprises across Nepal` : '';
       if (meta.textContent) body.appendChild(meta);
       const textDiv = el('div','story-text', s.text || '<p class="muted">No narrative yet.</p>');
       body.appendChild(textDiv);

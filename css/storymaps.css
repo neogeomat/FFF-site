@@ -186,6 +186,21 @@
 .story-card-body .story-text h3 { font-size: 0.98rem; margin: 10px 0 6px; color: var(--forest); }
 .story-card-body .story-text ul { margin: 6px 0; padding-left: 18px; }
 .story-card-body .story-text p { margin: 6px 0; }
+
+/* Pull-quote. The blockquote is effectively the whole card while .story-text is clamped to 5 lines,
+   so it has to read as a callout rather than the browser's default indent. Add width/colour rules
+   to tokens.css only if the tokens themselves change. */
+.story-card-body .story-text blockquote {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--gold);
+  background: rgba(196, 164, 74, 0.08);
+  font-family: Fraunces, serif;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--forest);
+}
+.story-card-body .story-text blockquote p { margin: 0; }
 .story-more {
   margin-top: auto;
   font-weight: 600;
