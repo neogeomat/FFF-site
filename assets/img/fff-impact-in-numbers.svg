@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 625" width="1000" height="625" role="img" aria-labelledby="impactTitle impactDesc">
+  <title id="impactTitle">Impact in numbers — Forest and Farm Facility, Nepal</title>
+  <desc id="impactDesc">165 policy or legal reforms at national or local level; 38 FFPO enterprises supported to add value; 18 women-led FFPO enterprises supported; 38,883 hectares of sustainable forest and farmland managed by FFPOs; 28,768 people benefiting from FFF forest and farm management; 3,156 people directly supported to cope with climate impacts; 79 climate resilience plans developed by FFPOs; 32 business development plans.</desc>
+  <!-- ponytail: hand-authored SVG, no chart lib — eight one-number stats don't need d3/matplotlib in a static site.
+       viewBox is 16:10 to match .card-media (aspect-ratio 16/10 + object-fit:cover), which would otherwise crop it. -->
+  <rect width="1000" height="625" fill="#0d1f0d"/>
+  <rect x="16" y="16" width="968" height="593" fill="none" stroke="#C4A44A" stroke-opacity="0.28" stroke-width="1.5"/>
+
+  <g font-family="Helvetica, Arial, sans-serif">
+    <text x="66" y="72" fill="#C4A44A" font-size="17" letter-spacing="2.6" font-weight="bold">FAO · FOREST AND FARM FACILITY · NEPAL</text>
+    <text x="66" y="134" fill="#F0EAE0" font-family="Georgia, 'Times New Roman', serif" font-size="52">Impact in numbers</text>
+    <line x1="66" y1="166" x2="934" y2="166" stroke="#C4A44A" stroke-opacity="0.45" stroke-width="1.5"/>
+
+    <!-- 8 stats · 2 columns × 4 rows · number baseline = 238 + i·102 -->
+    <g fill="#F0EAE0" font-size="19">
+      <text x="66"  y="238" fill="#C4A44A" font-family="Georgia, 'Times New Roman', serif" font-size="44">165</text>
+      <text x="66"  y="268">policy or legal reforms at national or local level</text>
+      <text x="520" y="238" fill="#C4A44A" font-family="Georgia, 'Times New Roman', serif" font-size="44">38</text>
+      <text x="520" y="268">FFPO enterprises supported to add value</text>
+
+      <text x="66"  y="340" fill="#C4A44A" font-family="Georgia, 'Times New Roman', serif" font-size="44">18</text>
+      <text x="66"  y="370">women-led FFPO enterprises supported</text>
+      <text x="520" y="340" fill="#C4A44A" font-family="Georgia, 'Times New Roman', serif" font-size="44">38,883</text>
+      <text x="520" y="370">hectares of forest and farmland managed</text>
+
+      <text x="66"  y="442" fill="#C4A44A" font-family="Georgia, 'Times New Roman', serif" font-size="44">28,768</text>
+      <text x="66"  y="472">people benefiting from FFF forest</text>
+      <text x="66"  y="496">and farm management</text>
+      <text x="520" y="442" fill="#C4A44A" font-family="Georgia, 'Times New Roman', serif" font-size="44">3,156</text>
+      <text x="520" y="472">people directly supported by FFF</text>
+      <text x="520" y="496">to cope with climate impacts</text>
+
+      <text x="66"  y="544" fill="#C4A44A" font-family="Georgia, 'Times New Roman', serif" font-size="44">79</text>
+      <text x="66"  y="574">climate resilience plans by FFPOs</text>
+      <text x="520" y="544" fill="#C4A44A" font-family="Georgia, 'Times New Roman', serif" font-size="44">32</text>
+      <text x="520" y="574">business development plans</text>
+    </g>
+
+    <line x1="493" y1="196" x2="493" y2="510" stroke="#C4A44A" stroke-opacity="0.16" stroke-width="1"/>
+    <line x1="66" y1="306" x2="934" y2="306" stroke="#C4A44A" stroke-opacity="0.16" stroke-width="1"/>
+    <line x1="66" y1="408" x2="934" y2="408" stroke="#C4A44A" stroke-opacity="0.16" stroke-width="1"/>
+    <line x1="66" y1="520" x2="934" y2="520" stroke="#C4A44A" stroke-opacity="0.16" stroke-width="1"/>
+  </g>
+</svg>

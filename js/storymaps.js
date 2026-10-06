@@ -56,6 +56,7 @@
         media_url: (get('media_url')||'').trim(),
         media_caption: get('media_caption')||'',
         media_credit: get('media_credit')||'',
+        source_url: (get('source_url')||'').trim(),
       });
     }
     // Sheet row order is the strip order, but sort by slide_order anyway so a reordered sheet
@@ -193,6 +194,15 @@
       if (s.lat!=null && s.lon!=null) meta.textContent = `${s.lat.toFixed(3)}, ${s.lon.toFixed(3)}${s.zoom ? ' · z'+s.zoom:''}`;
       else meta.textContent = s.type==='overview' ? `${slidesData.length} stories · community forest enterprises across Nepal` : '';
       if (meta.textContent) body.appendChild(meta);
+      // The article behind the slide. Sits above the clamped .story-text so it is visible without expanding.
+      if (s.source_url) {
+        const src = el('a','story-source','Read the full story on fao.org →');
+        src.href = s.source_url;
+        src.target = '_blank';
+        src.rel = 'noopener';
+        src.addEventListener('click', (e)=> e.stopPropagation());   // don't page the strip
+        body.appendChild(src);
+      }
       const textDiv = el('div','story-text', s.text || '<p class="muted">No narrative yet.</p>');
       body.appendChild(textDiv);
       if (s.text && s.text.length>420) {

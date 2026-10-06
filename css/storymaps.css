@@ -212,6 +212,26 @@
   cursor: pointer;
   padding: 0;
 }
+/* Source article link — above the clamped narrative, so it stays visible on the collapsed card. */
+.story-source {
+  display: inline-block;
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--forest);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.story-source::before {
+  content: "";
+  display: inline-block;
+  width: 6px; height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  vertical-align: middle;
+}
+.story-source:hover { color: var(--gold); }
 .strip-nav {
   position: absolute;
   top: 50%;

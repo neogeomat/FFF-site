@@ -49,6 +49,8 @@ const ok = (name, cond, detail = '') => {
         firstTag: t && t.firstElementChild ? t.firstElementChild.tagName : null,
         hasQuote: !!(t && t.querySelector('blockquote')),
         md: !!(t && /\*\*/.test(t.textContent)),
+        meta: (c.querySelector('.kicker') || {}).textContent || '',
+        source: (() => { const a = c.querySelector('a.story-source'); return a ? { href: a.href, target: a.target, text: a.textContent.trim() } : null; })(),
         img: img ? { url: img.currentSrc || img.src, w: img.naturalWidth } : null,
         chars: t ? t.textContent.trim().length : 0,
       };
@@ -56,7 +58,7 @@ const ok = (name, cond, detail = '') => {
   });
 
   ok('the sheet was stubbed with the repo csv (post-paste state)', !!process.env.NO_STUB || stubbed > 0, process.env.NO_STUB ? 'NO_STUB=1 — reading the live sheet' : stubbed + ' request(s)');
-  ok('6 story cards render', data.length === 6, `${data.length} cards`);
+  ok('9 story cards render', data.length === 9, `${data.length} cards`);
   ok('badges are 1-based',
      data.every((d, i) => d.badge.trim() === `Story ${i + 1}`),
      data.map(d => d.badge.trim()).join(', '));
@@ -67,6 +69,15 @@ const ok = (name, cond, detail = '') => {
   ok('every card has a non-empty narrative', data.every(d => d.chars > 300),
      data.map(d => d.chars).join(', '));
   ok('no markdown leaked into the rendered text', !data.some(d => d.md));
+  // Every slide now carries coordinates, so each card must render its "lat, lon · zN" line. A card that
+  // silently loses its pin (a blank lat/lon, a broken toFixed path) shows an empty line and fails here.
+  ok('every card shows its location line (lat, lon · zN)',
+     data.every(d => /^-?\d+\.\d{3}, -?\d+\.\d{3} · z\d+$/.test((d.meta || '').trim())),
+     data.map(d => (d.meta || '(none)').trim()).join(' | '));
+  // The article behind each slide: rendered above the clamped narrative, so it is readable un-expanded.
+  ok('every card links to its source article (fao.org, new tab)',
+     data.every(d => d.source && /^https:\/\/www\.fao\.org\//.test(d.source.href) && d.source.target === '_blank'),
+     data.map(d => d.source ? d.source.href.replace('https://www.fao.org', '') : 'none').join(' | '));
   // >=900px, not >0: the whole "images look low resolution" bug was FAO's medium_ variant (205px) passing
   // a >0 check while being upscaled into a ~460px-wide card.
   ok('every card has a photo that loads, at >=900px wide',
@@ -82,6 +93,17 @@ const ok = (name, cond, detail = '') => {
      quoteStyle && parseFloat(quoteStyle.border) >= 3 && quoteStyle.bg !== 'rgba(0, 0, 0, 0)',
      JSON.stringify(quoteStyle));
   ok('no page errors', errs.length === 0, errs.slice(0, 2).join(' | '));
+
+  // The card itself is a click target (it pages the strip). The article link must not also page it.
+  const paged = await p.evaluate(() => {
+    const cards = [...document.querySelectorAll('.story-card')];
+    const idx = () => cards.findIndex(c => c.classList.contains('active'));
+    const before = idx();
+    const a = cards[2].querySelector('a.story-source');
+    a.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));   // bubbles: path reaches the card
+    return { before, after: idx() };
+  });
+  ok('clicking the source link does not page the strip', paged.before === paged.after, JSON.stringify(paged));
 
   console.log(`\n${fail ? 'FAILURES: ' + fail : 'all green'}  (${pass} passed)`);
   await b.close();
