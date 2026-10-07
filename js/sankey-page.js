@@ -42,6 +42,12 @@
     if(iso){ const y=parseInt(iso[1],10), mo=parseInt(iso[2],10); const fy= mo>=7? y : y-1; return fy+'-'+String(fy+1).slice(-2); }
     const m=s.match(/(\d{4})/); return m? m[1]:'Undated';
   }
+  // Node values, formatted exactly as the Webmap's charts print them ($1.20M / $450k / 12) so the same
+  // flow reads the same on both pages.
+  function fmtSankey(v, metric){
+    if(metric!=='amount') return String(v);
+    return v>=1e6 ? '$'+(v/1e6).toFixed(2)+'M' : (v>=1e3 ? '$'+Math.round(v/1e3)+'k' : '$'+Math.round(v));
+  }
 
   async function fetchCsvWithFallback(){
     try{
@@ -314,7 +320,28 @@
     svg.append('g').selectAll('path').data(graph.links).join('path').attr('d',d3.sankeyLinkHorizontal()).attr('stroke',d=>color(d.source.name)).attr('stroke-width',d=>Math.max(1,d.width)).attr('fill','none').attr('opacity',0.55);
     const g=svg.append('g').selectAll('g').data(graph.nodes).join('g');
     g.append('rect').attr('x',d=>d.x0).attr('y',d=>d.y0).attr('width',d=>d.x1-d.x0).attr('height',d=>Math.max(1,d.y1-d.y0)).attr('fill',d=> d.name==='FFF Nepal'?'#0070b6':color(d.name));
-    g.append('text').attr('x',d=>d.x1+6).attr('y',d=>(d.y0+d.y1)/2).attr('dy','0.35em').attr('text-anchor','start').style('font','11px Arial').text(d=>d.name).attr('fill','#1a3c5e');
+    // Labels carry the node's value (the bare name was the whole gap between this page and the Webmap
+    // charts). Fit each label to the room before the NEXT column: a district name is ~90-110px and the
+    // column pitch is ~100px, so a fixed-width guess overlaps the neighbouring column - measure instead.
+    const colLeft={};
+    graph.nodes.forEach(d=>{ const k=Math.round(d.x0); if(colLeft[k]===undefined||d.depth<colLeft[k].depth) colLeft[k]={depth:d.depth,x0:d.x0}; });
+    const colXs=Object.keys(colLeft).map(Number).sort((a,b)=>a-b);
+    const roomFor=d=>{ const i=colXs.indexOf(Math.round(d.x0)); return (i>=0&&i<colXs.length-1)?(colXs[i+1]-d.x1-10):(w-d.x1-12); };
+    g.append('text').attr('x',d=>d.x1+6).attr('y',d=>(d.y0+d.y1)/2).attr('dy','0.35em').attr('text-anchor','start').style('font','13px Arial, Helvetica, sans-serif').attr('fill','#1a3c5e')
+      .text(function(d){
+        const suffix=' ('+fmtSankey(d.value,metric)+')';
+        const full=String(d.name)+suffix, room=roomFor(d);
+        this.textContent=full;
+        if(this.getComputedTextLength()<=room) return full;
+        let keep=String(d.name);
+        while(keep.length>1){
+          keep=keep.slice(0,-1);
+          this.textContent=keep+'\u2026'+suffix;
+          if(this.getComputedTextLength()<=room) return this.textContent;
+        }
+        return '\u2026'+suffix;
+      });
+    g.append('title').text(d=> String(d.name)+': '+fmtSankey(d.value, metric)+(metric==='amount'?' USD (LoA+DBG)':' organizations'));
     return paths;
   }
 
