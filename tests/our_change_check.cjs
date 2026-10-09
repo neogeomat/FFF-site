@@ -25,8 +25,22 @@ const BASE = process.env.BASE || 'http://127.0.0.1:8123';
     };
   });
 
+  const a = await p.evaluate(() => {
+    const s = [...document.querySelectorAll('section.section')]
+      .find(el => el.textContent.includes('Advocacy and policy reforms'));
+    return s ? {
+      idx: [...document.querySelectorAll('section.section')].indexOf(s),
+      h3: [...s.querySelectorAll('h3')].map(h => h.textContent.trim()),
+      lis: [...s.querySelectorAll('li')].map(l => l.textContent.trim()),
+    } : null;
+  });
+
   let pass = 0, fail = 0;
   const ok = (n, c, d = '') => { c ? pass++ : fail++; console.log(`${c ? 'PASS' : 'FAIL'} ${n}${d ? '   ' + d : ''}`); };
+  ok('the country highlight is the first section on the page', !!a && a.idx === 0);
+  ok('it names both advocacy blocks and the three outcomes',
+     !!a && a.h3.join('|') === 'FECOFUN advocacy|FFPOs impacting national strategies|Outcomes include' && a.lis.length === 3,
+     a ? a.h3.join(' / ') : '');
   ok('our-change.html has a card-media image', !!m);
   ok('the infographic is a local asset, not a hotlinked stock photo', !!m && !/^https?:/.test(m.src), m ? m.src : '');
   ok('the infographic loads', !!m && m.loaded, m ? `${m.nat[0]}x${m.nat[1]}` : '');
