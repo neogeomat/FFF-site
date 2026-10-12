@@ -7,7 +7,6 @@ Replicates https://upon-orchid-35798834.figma.site/ — 8 pages, English, no bui
 - `our-change.html` Our Change (/cambio)
 - `sustainable-management.html` Sustainable Management (/gestion)
 - `territories.html` Territories (/territorios) — placeholder for Webmap embed
-- `value-chains.html` Value Chains (/cadenas)
 - `catalog.html` Catalog (/catalogo)
 - `progress.html` Progress (/avances)
 - `challenges.html` Challenges (/retos)

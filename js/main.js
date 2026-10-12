@@ -120,41 +120,4 @@
     }));
   });
 
-  // Simple tab helper for value-chains / territories where panes are siblings
-  function bindTabs(tabSelector, paneSelector) {
-    const tabs = $$(tabSelector);
-    const panes = $$(paneSelector);
-    if (!tabs.length || !panes.length) return;
-    tabs.forEach(t => t.addEventListener('click', () => {
-      const id = t.dataset.tab;
-      tabs.forEach(x => x.classList.toggle('active', x === t));
-      panes.forEach(p => p.classList.toggle('hidden', p.dataset.pane !== id));
-    }));
-  }
-  bindTabs('.vc-tab', '.vc-pane');
-  bindTabs('.terr-tab', '.terr-pane');
-
-  // Catalog filter
-  const catSelect = $('#catalogFilter');
-  const productCards = $$('.product-card');
-  if (catSelect) {
-    catSelect.addEventListener('change', () => {
-      const v = catSelect.value;
-      productCards.forEach(c => {
-        const cat = c.dataset.category || '';
-        c.classList.toggle('hidden', v !== 'all' && cat !== v);
-      });
-    });
-  }
-  const catSearch = $('#catalogSearch');
-  if (catSearch) {
-    catSearch.addEventListener('input', () => {
-      const q = catSearch.value.toLowerCase().trim();
-      productCards.forEach(c => {
-        const text = c.textContent.toLowerCase();
-        const catOk = !catSelect || catSelect.value === 'all' || c.dataset.category === catSelect.value;
-        c.classList.toggle('hidden', !(catOk && (!q || text.includes(q))));
-      });
-    });
-  }
 })();
