@@ -129,7 +129,17 @@ body { padding-top: var(--header-h); }
 /* one crown silhouette per chain — clip-path / border-radius only, no images */
 .forest .crown-wide    { width: calc(var(--tree, 56px) * 1.16); height: calc(var(--tree, 56px) * 0.72); border-radius: 50% 50% 46% 46% / 74% 74% 26% 26%; background: radial-gradient(circle at 40% 26%, #a8dc9c, #4e9a4a 72%, #2f6b2b); }
 .forest .crown-fir     { clip-path: polygon(50% 0%, 100% 60%, 76% 56%, 94% 100%, 6% 100%, 24% 56%, 0% 60%); background: linear-gradient(#93d98c, #4c8f45); }
-.forest .crown-cane    { width: calc(var(--tree, 56px) * 0.58); height: calc(var(--tree, 56px) * 0.8); border-radius: 46% 46% 40% 40%; background: linear-gradient(#e2f0b8, #9dc25f); }
+/* bamboo grove: 3 segmented culms with leaves, drawn in CSS (no photo in repo) — replaces the emoji.
+   Culms run long into the soil, so bamboo hides the shared brown trunk (sibling selector). */
+.forest .crown-bamboo { width: calc(var(--tree, 56px) * 0.9); height: calc(var(--tree, 56px) * 1.05); background: none; box-shadow: none; display: flex; align-items: flex-end; justify-content: center; gap: calc(var(--tree, 56px) * 0.09); }
+.forest .crown-bamboo + .trunk { display: none; }
+.forest .crown-bamboo i { position: relative; width: calc(var(--tree, 56px) * 0.11); border-radius: 999px; background: repeating-linear-gradient(to bottom, #93c65e 0 11%, #5d8f3e 11% 14%); }
+.forest .crown-bamboo i:nth-child(1) { height: 86%; }
+.forest .crown-bamboo i:nth-child(2) { height: 100%; }
+.forest .crown-bamboo i:nth-child(3) { height: 76%; }
+.forest .crown-bamboo i::before, .forest .crown-bamboo i::after { content: ""; position: absolute; width: calc(var(--tree, 56px) * 0.24); height: calc(var(--tree, 56px) * 0.1); background: linear-gradient(135deg, #86c661, #4a8a3f); border-radius: 100% 4% 100% 4%; }
+.forest .crown-bamboo i::before { top: 16%; left: 70%; transform: rotate(28deg); }
+.forest .crown-bamboo i::after { top: 36%; right: 70%; transform: rotate(-28deg) scaleX(-1); }
 .forest .crown-palm    { clip-path: polygon(50% 100%, 2% 46%, 18% 4%, 50% 34%, 82% 4%, 98% 46%); background: linear-gradient(#b3e3a8, #5aa152); }
 .forest .crown-bush    { width: calc(var(--tree, 56px) * 1.2); height: calc(var(--tree, 56px) * 0.62); border-radius: 46% 54% 40% 60% / 62% 58% 42% 38%; background: radial-gradient(circle at 32% 32%, #d6f0cc, #7fbc6d 70%, #4a8a3f); }
 .forest .crown-broad   { width: calc(var(--tree, 56px) * 1.1); height: calc(var(--tree, 56px) * 0.66); border-radius: 16% 22% 18% 14% / 26% 30% 24% 20%; background: linear-gradient(135deg, #cfe9a8, #6aab54); }

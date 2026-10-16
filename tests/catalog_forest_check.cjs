@@ -25,7 +25,8 @@ const BASE = process.env.BASE || 'http://127.0.0.1:8123';
     const gaps = [];
     for (let i = 1; i < crowns.length; i++) gaps.push(Math.max(0, crowns[i].l - crowns[i - 1].r));
     const overlap = gaps.filter(g => g === 0).length;
-    const trunks = trees.map(t => { const r = t.querySelector('.trunk').getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; });
+    const trunks = trees.map(t => t.querySelector('.trunk')).filter(el => el.offsetParent !== null)
+      .map(el => { const r = el.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; });
     // per-line text boxes of adjacent name labels must not intersect (single-line names, so one box each)
     const labelLines = trees.map(t => {
       const range = document.createRange(); range.selectNodeContents(t.querySelector('.tree-name'));
@@ -61,6 +62,15 @@ const BASE = process.env.BASE || 'http://127.0.0.1:8123';
   ok('the ground line crosses every trunk (all bases rooted in the soil)', scene.groundedEvery,
     scene.groundedEvery ? '' : 'some trunk floats above or hides under the ground band');
   ok('every tree has a grants toggle button', (await p.$$('.forest .grant-toggle')).length === scene.n);
+  // bamboo is drawn in CSS (no photo in repo): 3 segmented culms, no emoji
+  const bamboo = await p.evaluate(() => {
+    const c = document.querySelector('.forest .tree[data-category="bamboo"] .canopy');
+    if(!c) return null;
+    const cs = getComputedStyle(c);
+    return { culms: c.querySelectorAll('i').length, emoji: c.querySelectorAll('.canopy-icon').length,
+      segmented: cs.backgroundImage.includes('repeating-linear-gradient') || [...c.querySelectorAll('i')].every(i => getComputedStyle(i).backgroundImage.includes('repeating-linear-gradient')) };
+  });
+  ok('bamboo grows as a CSS grove (3 segmented culms, no emoji)', !!bamboo && bamboo.culms === 3 && bamboo.emoji === 0 && bamboo.segmented === true, JSON.stringify(bamboo));
   ok('no page errors', errs.length === 0, errs.slice(0, 2).join(' | '));
 
   // the soil floor reaches the section bottom (labels sit ON soil, not beside a floating band)

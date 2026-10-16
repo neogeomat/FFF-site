@@ -54,7 +54,7 @@
   // Forest-based renders as one overlapping stand (flex row, odd/even back/front depth in css):
   // 8 crown silhouettes, sized by grant count via --tree.
   const TREE_GLYPH = {'Non-timber forest products':'🍄','Timber':'🌲','Bamboo':'🎋','Sal leaf plates':'🌴','Herbal products':'🪴','Cinnamon':'🍂','Essential Oil':'🌼','Honey':'🐝'};
-  const TREE_CROWN = {'Non-timber forest products':'crown-wide','Timber':'crown-fir','Bamboo':'crown-cane','Sal leaf plates':'crown-palm',
+  const TREE_CROWN = {'Non-timber forest products':'crown-wide','Timber':'crown-fir','Bamboo':'crown-bamboo','Sal leaf plates':'crown-palm',
                       'Herbal products':'crown-bush','Cinnamon':'crown-broad','Essential Oil':'crown-flower','Honey':'crown-blossom'};
   // one <div class="tree"> per Forest-based chain — canopy (glyph inside) + trunk, sized by grant count.
   const canon = s => {
@@ -107,7 +107,9 @@
     t.dataset.category=slug(p.subcategory);
     t.dataset.name=(p.name||'').toLowerCase();
     t.style.setProperty('--tree', Math.min(104, 54 + p.count*5)+'px');   // more grants = bigger crown
-    t.innerHTML=`<span class="canopy ${TREE_CROWN[p.subcategory]||'crown-wide'}"><span class="canopy-icon" aria-hidden="true">${TREE_GLYPH[p.subcategory]||'🌳'}</span></span>
+    t.innerHTML=`<span class="canopy ${TREE_CROWN[p.subcategory]||'crown-wide'}">${p.subcategory==='Bamboo'
+        ? '<i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>'   // CSS bamboo grove, no emoji
+        : `<span class="canopy-icon" aria-hidden="true">${TREE_GLYPH[p.subcategory]||'🌳'}</span>`}</span>
       <span class="trunk" aria-hidden="true"></span>
       <span class="tree-name">${escapeHtml(p.subcategory)}</span>
       <button type="button" class="grant-toggle" aria-expanded="false">${p.count>1? p.count+' grants': '1 grant'} ▾</button>`;
