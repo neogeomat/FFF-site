@@ -109,6 +109,46 @@ body { padding-top: var(--header-h); }
 .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
 .card:hover .card-media img { transform: scale(1.04); }
 .kicker { font-family: "DM Mono", monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+/* catalog category sections (js/catalog.js groups the chain cards by category) */
+.cat-heading { margin: 28px 0 14px; font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--forest); }
+#catalogGrid > .cat-heading:first-child { margin-top: 0; }
+.cat-heading .muted { margin-left: 10px; letter-spacing: 0; text-transform: none; font-size: 0.85rem; }
+.cat-heading .cat-icon { margin-right: 8px; font-size: 1.35rem; }
+/* Forest-based section: the chains grow as ONE overlapping stand — sky wash, blurred distant treeline, shared ground. Item margin sets label pitch, canopy negative margins interleave the crowns; odd/even back/front depth. */
+.forest { position: relative; display: flex; align-items: flex-end; justify-content: center; padding: 26px 10px 10px; overflow: hidden; border-radius: var(--radius-lg); background: linear-gradient(to bottom, #e9f3e6 0%, #ddebd8 55%, #cfdfc6 100%); }
+.forest::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100px; height: 130px; z-index: 0; background: repeating-radial-gradient(circle at 50% 118%, #4a8a3f 0 46px, transparent 46px 92px); background-size: 184px 130px; background-repeat: repeat-x; filter: blur(7px); opacity: 0.55; }
+.forest::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 80px; z-index: 0; background: linear-gradient(to bottom, #6aab54 0 7px, #7a5c3e 7px 100%); border-radius: 50% 50% 0 0 / 12px 12px 0 0; }
+.forest .tree { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 0; flex: none; margin: 0 6px; text-align: center; }
+.forest .tree:nth-child(even) { z-index: 2; }
+.forest .tree:nth-child(odd) .canopy { transform: scale(0.9); filter: brightness(0.87) saturate(0.94); }
+.forest .tree:nth-child(even) .canopy { filter: drop-shadow(0 3px 3px rgba(20,40,20,0.35)); }
+.forest::before, .forest::after { pointer-events: none; }
+@media (max-width: 700px) { .forest { flex-wrap: wrap; } .forest::before, .forest::after { display: none; } .forest .tree-name, .forest .grant-toggle { color: var(--forest); } }
+.forest .canopy { display: grid; place-items: center; width: var(--tree, 56px); height: var(--tree, 56px); margin: 0 -34px; box-shadow: inset 0 -5px 10px rgba(0,0,0,0.16); }
+.forest .canopy-icon { font-size: calc(var(--tree, 56px) * 0.44); line-height: 1; filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 4.5px rgba(255,255,255,.9)); }
+/* one crown silhouette per chain — clip-path / border-radius only, no images */
+.forest .crown-wide    { width: calc(var(--tree, 56px) * 1.16); height: calc(var(--tree, 56px) * 0.72); border-radius: 50% 50% 46% 46% / 74% 74% 26% 26%; background: radial-gradient(circle at 40% 26%, #a8dc9c, #4e9a4a 72%, #2f6b2b); }
+.forest .crown-fir     { clip-path: polygon(50% 0%, 100% 60%, 76% 56%, 94% 100%, 6% 100%, 24% 56%, 0% 60%); background: linear-gradient(#93d98c, #4c8f45); }
+.forest .crown-cane    { width: calc(var(--tree, 56px) * 0.58); height: calc(var(--tree, 56px) * 0.8); border-radius: 46% 46% 40% 40%; background: linear-gradient(#e2f0b8, #9dc25f); }
+.forest .crown-palm    { clip-path: polygon(50% 100%, 2% 46%, 18% 4%, 50% 34%, 82% 4%, 98% 46%); background: linear-gradient(#b3e3a8, #5aa152); }
+.forest .crown-bush    { width: calc(var(--tree, 56px) * 1.2); height: calc(var(--tree, 56px) * 0.62); border-radius: 46% 54% 40% 60% / 62% 58% 42% 38%; background: radial-gradient(circle at 32% 32%, #d6f0cc, #7fbc6d 70%, #4a8a3f); }
+.forest .crown-broad   { width: calc(var(--tree, 56px) * 1.1); height: calc(var(--tree, 56px) * 0.66); border-radius: 16% 22% 18% 14% / 26% 30% 24% 20%; background: linear-gradient(135deg, #cfe9a8, #6aab54); }
+.forest .crown-flower  { clip-path: polygon(50.0% 0.0%, 62.0% 29.2%, 93.3% 25.0%, 74.0% 50.0%, 93.3% 75.0%, 62.0% 70.8%, 50.0% 100.0%, 38.0% 70.8%, 6.7% 75.0%, 26.0% 50.0%, 6.7% 25.0%, 38.0% 29.2%); background: radial-gradient(circle at 50% 50%, #f7edb0 0 20%, #7ec878 44%, #3d7c37 82%); }
+.forest .crown-blossom { clip-path: polygon(50.0% 0.0%, 69.0% 17.1%, 93.3% 25.0%, 88.0% 50.0%, 93.3% 75.0%, 69.0% 82.9%, 50.0% 100.0%, 31.0% 82.9%, 6.7% 75.0%, 12.0% 50.0%, 6.7% 25.0%, 31.0% 17.1%); background: radial-gradient(circle at 50% 42%, #ffe07a 0 16%, #86c97e 38%, #3a7a34 80%); }
+.forest .trunk { width: calc(var(--tree, 56px) * 0.14); height: calc(var(--tree, 56px) * 0.45); border-radius: 2px; background: linear-gradient(to right, #6d4c41, #a1887f 45%, #5d4037); }
+.forest .tree-name { min-height: 2.2em; margin-top: 6px; font-size: 0.78rem; font-weight: 600; color: #f5efe0; }
+.forest .grant-toggle { background: none; border: 0; padding: 2px 4px; margin-top: 2px; font: inherit; font-size: 0.75rem; color: #f5efe0; text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; }
+.forest .grant-toggle:hover { text-decoration-style: solid; }
+/* open tree lifts above its neighbours (accordion); the drawer below the soil carries the detail */
+.forest .tree.open { z-index: 6; }
+/* shared roots drawer: Organization × Grant title table below the soil, same soil background */
+.roots-drawer { margin: 12px auto 0; max-width: 1020px; background: linear-gradient(to bottom, #6aab54 0 7px, #7a5c3e 7px 100%); border-radius: 12px; padding: 12px 18px 14px; }
+.roots-drawer[hidden] { display: none; }
+.roots-head { font-size: 0.8rem; font-weight: 600; color: #f5efe0; margin-bottom: 6px; text-align: center; }
+.roots-table { width: 100%; border-collapse: collapse; }
+.roots-table th { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,239,224,0.7); background: transparent; text-align: left; padding: 6px 10px; border-bottom: 1px solid rgba(245,239,224,0.35); }
+.roots-table td { font-size: 0.78rem; line-height: 1.4; color: #f5efe0; text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid rgba(245,239,224,0.16); }
+.roots-table tr:last-child td { border-bottom: 0; }
 .card h3 { margin: 8px 0 8px; font-size: 1.22rem; }
 .card p { margin: 0; color: var(--text-muted); font-size: 0.94rem; }
 .section-dark .card p { color: var(--text-cream); }

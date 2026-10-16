@@ -10,11 +10,12 @@
   const empty = () => document.getElementById('catalogEmpty');
 
   // Icons per subcategory — reuse Webmap palette, unified canonicals: Fertiliser (not Biofertilizer), Handicraft (not Handicrafts/Furniture/Wooden)
+  // One distinct icon per subcategory (24): no repeats, so badge shape identifies the chain too
   const COMMODITY_ICON = {
-    'Non-timber forest products': '🍄', 'Dairy': '🥛', 'Agri products': '🥬', 'Vegetables': '🥬',
-    'Fish': '🐟', 'PGS': '🌱', 'Sal leaf plates': '🍃', 'Timber': '🪵', 'Timur': '🌶️',
+    'Non-timber forest products': '🍄', 'Dairy': '🐄', 'Agri products': '🧺', 'Vegetables': '🥦',
+    'Fish': '🐟', 'PGS': '📜', 'Sal leaf plates': '🍽️', 'Timber': '🪵', 'Timur': '🌶️',
     'Bamboo': '🎋', 'Honey': '🍯', 'Nursery': '🌱', 'Ginger': '🫚', 'Herbal products': '🌿',
-    'Turmeric': '🟡', 'Allo': '🧵', 'Amala': '🍋', 'Fertiliser': '🧪', 'Cinnamon': '🌿',
+    'Turmeric': '🍛', 'Allo': '🧵', 'Amala': '🫒', 'Fertiliser': '🧪', 'Cinnamon': '🍃',
     'Essential Oil': '🧴', 'Handicraft': '🎨', 'Lime': '🍋', 'Silage': '🌾', 'Unclassified': '❓'
   };
   const COMMODITY_COLOR = {
@@ -33,6 +34,29 @@
     'handicrafts': 'Handicraft', 'handicraft': 'Handicraft', 'wooden handicraft': 'Handicraft', 'wooden handicrafts': 'Handicraft', 'furniture': 'Handicraft'
   };
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  // Category groups for the catalog grid — kept by hand because the csv's own `main_category`
+  // is row-level and disagrees row to row (a chain lands in two categories, 'Other / needs review'
+  // swallows 15 of 24, 8 rows are blank), so grouping off it would file one chain under two headings.
+  const GROUP_ORDER = ['Forest-based','Agriculture & agroforestry','Livestock & fisheries','Handicraft & fibre','Circular / green enterprises','Unclassified'];
+  const SUB_GROUP = {
+    'Non-timber forest products':'Forest-based','Timber':'Forest-based','Bamboo':'Forest-based','Sal leaf plates':'Forest-based',
+    'Herbal products':'Forest-based','Cinnamon':'Forest-based','Essential Oil':'Forest-based','Honey':'Forest-based',
+    'Agri products':'Agriculture & agroforestry','Vegetables':'Agriculture & agroforestry','PGS':'Agriculture & agroforestry',
+    'Timur':'Agriculture & agroforestry','Turmeric':'Agriculture & agroforestry','Ginger':'Agriculture & agroforestry',
+    'Nursery':'Agriculture & agroforestry','Amala':'Agriculture & agroforestry','Lime':'Agriculture & agroforestry',
+    'Dairy':'Livestock & fisheries','Silage':'Livestock & fisheries','Fish':'Livestock & fisheries',
+    'Handicraft':'Handicraft & fibre','Allo':'Handicraft & fibre',
+    'Fertiliser':'Circular / green enterprises'
+  };
+  const groupOf = s => SUB_GROUP[s] || 'Unclassified';
+  // Heading icon per group; Forest-based reads as a stand of trees
+  const GROUP_ICON = {'Forest-based':'🌲🌳','Agriculture & agroforestry':'🌾','Livestock & fisheries':'🐐','Handicraft & fibre':'🧶','Circular / green enterprises':'♻️','Unclassified':'❓'};
+  // Forest-based renders as one overlapping stand (flex row, odd/even back/front depth in css):
+  // 8 crown silhouettes, sized by grant count via --tree.
+  const TREE_GLYPH = {'Non-timber forest products':'🍄','Timber':'🌲','Bamboo':'🎋','Sal leaf plates':'🌴','Herbal products':'🪴','Cinnamon':'🍂','Essential Oil':'🌼','Honey':'🐝'};
+  const TREE_CROWN = {'Non-timber forest products':'crown-wide','Timber':'crown-fir','Bamboo':'crown-cane','Sal leaf plates':'crown-palm',
+                      'Herbal products':'crown-bush','Cinnamon':'crown-broad','Essential Oil':'crown-flower','Honey':'crown-blossom'};
+  // one <div class="tree"> per Forest-based chain — canopy (glyph inside) + trunk, sized by grant count.
   const canon = s => {
     if (!s) return 'Unclassified';
     const low=s.trim().toLowerCase();
@@ -56,44 +80,130 @@
     return rows;
   }
 
+  function cardFor(p) {
+    const meta=getMeta(p.subcategory);
+    const card=document.createElement('div');
+    card.className='card product-card';
+    card.dataset.category=slug(p.subcategory);
+    card.dataset.name=(p.name||'').toLowerCase();
+    // plain emoji, no colour chip behind it
+    card.innerHTML=`<div class="kicker" style="display:flex;align-items:center;gap:8px"><span style="font-size:1.75rem;line-height:1">${meta.icon}</span>${meta.label}</div>
+      <h3>${escapeHtml(p.name)}</h3>
+      <p>${escapeHtml(p.desc||p.enterprise_commodity||'')}</p>
+      <small class="muted">${escapeHtml(p.subcategory)}${p.district? ' · '+escapeHtml(p.district):''}${p.province? ' · '+escapeHtml(p.province):''}</small>
+      <small class="muted" style="display:block;margin-top:4px">${p.count>1? p.count+' grants': '1 grant'}${p.org? ' · '+escapeHtml(p.org):''}</small>`;
+    // click could link to Webmap filtered view in future
+    return card;
+  }
+
+  // one <div class="tree"> per Forest-based chain — canopy (glyph inside) + trunk, sized by grant count.
+  // Stays a .product-card so the chain filter and search keep working. The grants caption is a button:
+  // clicking it opens the tree and fills the shared drawer below the soil with an
+  // Organization × Grant title table (one row per grant record).
+  const chainBySlug = {};
+  function treeFor(p) {
+    const t=document.createElement('div');
+    t.className='tree product-card';
+    t.dataset.category=slug(p.subcategory);
+    t.dataset.name=(p.name||'').toLowerCase();
+    t.style.setProperty('--tree', Math.min(104, 54 + p.count*5)+'px');   // more grants = bigger crown
+    t.innerHTML=`<span class="canopy ${TREE_CROWN[p.subcategory]||'crown-wide'}"><span class="canopy-icon" aria-hidden="true">${TREE_GLYPH[p.subcategory]||'🌳'}</span></span>
+      <span class="trunk" aria-hidden="true"></span>
+      <span class="tree-name">${escapeHtml(p.subcategory)}</span>
+      <button type="button" class="grant-toggle" aria-expanded="false">${p.count>1? p.count+' grants': '1 grant'} ▾</button>`;
+    return t;
+  }
+
   function render(products, subcategories) {
     const g=grid(); if(!g) return;
     g.innerHTML='';
-    const frag=document.createDocumentFragment();
-    products.forEach(p=>{
-      const meta=getMeta(p.subcategory);
-      const card=document.createElement('div');
-      card.className='card product-card';
-      card.dataset.category=slug(p.subcategory);
-      card.dataset.name=(p.name||'').toLowerCase();
-      const iconBadge=`<span class="pin" style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:999px;background:${meta.color};color:#fff;font-size:1rem">${meta.icon}</span>`;
-      card.innerHTML=`<div class="kicker" style="display:flex;align-items:center;gap:8px">${iconBadge}${meta.label}</div>
-        <h3>${escapeHtml(p.name)}</h3>
-        <p>${escapeHtml(p.desc||p.enterprise_commodity||'')}</p>
-        <small class="muted">${escapeHtml(p.subcategory)}${p.district? ' · '+escapeHtml(p.district):''}${p.province? ' · '+escapeHtml(p.province):''}</small>
-        <small class="muted" style="display:block;margin-top:4px">${p.count>1? p.count+' grants': '1 grant'}${p.org? ' · '+escapeHtml(p.org):''}</small>`;
-      // click could link to Webmap filtered view in future
-      frag.appendChild(card);
+    // one section per category; cards keep the incoming order (grant count desc) inside a section
+    let sections=0;
+    GROUP_ORDER.forEach(name=>{
+      const inGroup=products.filter(p=>groupOf(p.subcategory)===name);
+      if(!inGroup.length) return;
+      sections++;
+      const head=document.createElement('h2');
+      head.className='cat-heading';
+      head.innerHTML=`<span class="cat-icon" aria-hidden="true">${GROUP_ICON[name]||''}</span><span class="cat-name">${escapeHtml(name)}</span><span class="muted">${inGroup.length} chain${inGroup.length>1?'s':''}</span>`;
+      const row=document.createElement('div');
+      const forest = name==='Forest-based';
+      row.className = (forest? 'forest' : 'grid-3') + ' cat-row';
+      inGroup.forEach((p)=>{ chainBySlug[slug(p.subcategory)]=p; row.appendChild(forest? treeFor(p) : cardFor(p)); });
+      g.appendChild(head); g.appendChild(row);
+      if(forest){
+        // shared roots drawer: one Organization × Grant title table below the soil, filled on open.
+        // A shared block (not per-tree) so opening a tree never moves any tree.
+        const drawer=document.createElement('div');
+        drawer.className='roots-drawer'; drawer.hidden=true;
+        drawer.innerHTML=`<div class="roots-head" aria-live="polite"></div>
+          <table class="roots-table"><thead><tr><th scope="col">Organization</th><th scope="col">Grant title</th></tr></thead><tbody></tbody></table>`;
+        g.appendChild(drawer);
+      }
     });
-    g.appendChild(frag);
     // update lead
-    if(lead()) lead().textContent=`${products.length} products — 68 organizations · 73 grants. Filter by chain or search.`;
-    // populate filter options (keep All)
+    if(lead()) lead().textContent=`${products.length} chains in ${sections} categories — 68 organizations · 73 grants. Filter by chain or search.`;
+    // populate filter options (keep All), grouped the same way as the grid
     const sel=filterSel(); if(sel){
       // preserve All
       const allOpt=sel.querySelector('option[value="all"]');
       sel.innerHTML='';
       sel.appendChild(allOpt||Object.assign(document.createElement('option'),{value:'all',textContent:'All chains'}));
-      subcategories.slice().sort().forEach(s=>{
-        const o=document.createElement('option');
-        o.value=slug(s); o.textContent=s;
-        sel.appendChild(o);
+      GROUP_ORDER.forEach(name=>{
+        const subs=subcategories.slice().sort().filter(s=>groupOf(s)===name);
+        if(!subs.length) return;
+        const og=document.createElement('optgroup'); og.label=name;
+        subs.forEach(s=>{
+          const o=document.createElement('option');
+          o.value=slug(s); o.textContent=s;
+          og.appendChild(o);
+        });
+        sel.appendChild(og);
       });
     }
     applyFilter();
   }
 
   function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+
+  // forest trees open/close — delegated (render() rebuilds the rows, the grid itself persists).
+  // One open tree at a time (accordion): opening a tree closes the others. Nothing inside a tree
+  // changes layout on open (no branches/strand elements in flow) — tree positions never change.
+  const gridEl = document.getElementById('catalogGrid');
+  const rootsDrawer = () => gridEl.querySelector('.roots-drawer');
+  function closeTrees(){
+    gridEl.querySelectorAll('.tree.open').forEach(o => {
+      o.classList.remove('open');
+      const b = o.querySelector('.grant-toggle');
+      if(b){ b.setAttribute('aria-expanded','false'); b.textContent = b.textContent.replace('▴','▾'); }
+    });
+    const d = rootsDrawer();
+    if(d) d.hidden = true;
+  }
+  function openTree(tree){
+    const p = chainBySlug[tree.dataset.category];
+    closeTrees();
+    tree.classList.add('open');
+    const btn = tree.querySelector('.grant-toggle');
+    btn.setAttribute('aria-expanded','true');
+    btn.textContent = btn.textContent.replace('▾','▴');
+    const d = rootsDrawer();
+    if(d && p){
+      d.querySelector('.roots-head').textContent = `${p.subcategory} — ${p.count>1? p.count+' grants': '1 grant'}`;
+      d.querySelector('.roots-table tbody').innerHTML = (p.rows||[]).map(r=>`<tr><td>${escapeHtml(r.org||'—')}</td><td>${escapeHtml(r.title||'—')}</td></tr>`).join('');
+      d.hidden = false;
+    }
+  }
+  if(gridEl && !gridEl.dataset.treeToggle){
+    gridEl.dataset.treeToggle = '1';
+    gridEl.addEventListener('click', ev => {
+      const btn = ev.target.closest('.grant-toggle');
+      if(!btn) return;
+      const tree = btn.closest('.tree');
+      if(tree.classList.contains('open')) closeTrees();
+      else openTree(tree);
+    });
+  }
 
   function applyFilter(){
     const v=(filterSel()?.value||'all');
@@ -110,6 +220,15 @@
       if(show) visible++;
     });
     if(empty()) empty().classList.toggle('hidden', visible!==0);
+    // a section whose chains are all filtered out hides with them (heading included)
+    document.querySelectorAll('#catalogGrid .cat-row').forEach(row=>{
+      const any=[...row.querySelectorAll('.product-card')].some(c=>!c.classList.contains('hidden'));
+      row.classList.toggle('hidden',!any);
+      const head=row.previousElementSibling;
+      if(head&&head.classList.contains('cat-heading')) head.classList.toggle('hidden',!any);
+    });
+    // an open tree that just got filtered out takes its drawer with it
+    if(gridEl.querySelector('.tree.open.hidden')) closeTrees();
   }
 
   async function fetchCsvWithFallback(){
@@ -146,10 +265,14 @@
         const dist=(get('district')||'').trim();
         const prov=(get('province')||'').trim();
         const key=sub;
+        // one table row per grant record (org + grant_title); titles are unique per chain
+        const gt=(grant || ent).trim();
+        const rec={ org, title: gt || '—' };
         if(!bySub.has(key)){
-          bySub.set(key,{ subcategory:sub, name: ent || grant || sub, desc: grant || ent, enterprise_commodity: ent, org, district: dist, province: prov, count:1 });
+          bySub.set(key,{ subcategory:sub, name: ent || grant || sub, desc: grant || ent, enterprise_commodity: ent, org, district: dist, province: prov, count:1, rows: (org||gt)?[rec]:[] });
         } else {
           bySub.get(key).count++;
+          if(org||gt) bySub.get(key).rows.push(rec);
         }
       }
       const products=[...bySub.values()].sort((a,b)=> b.count - a.count || a.subcategory.localeCompare(b.subcategory));
