@@ -1,0 +1,209 @@
+/* ============================================================
+   Catalog scenes — drop-in (load AFTER css/style.css)
+   Forest-based = forest stand · Agriculture = farm rows ·
+   Livestock = pasture · Handicraft = workshop · Circular = cycle
+   ============================================================ */
+
+/* ---------- shared scene chrome ---------- */
+.scene { position: relative; overflow: hidden; border-radius: var(--radius-lg, 18px);
+  padding: 30px 18px 22px; }
+.scene .product-card { position: relative; z-index: 1; }
+.scene .grant-toggle { background: none; border: 0; padding: 2px 4px; font: inherit; font-size: 0.75rem;
+  color: inherit; text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; }
+.scene .grant-toggle:hover { text-decoration-style: solid; }
+/* shared roots drawer (one per scene group) */
+.roots-drawer { margin: 12px auto 0; max-width: 1020px; border-radius: 12px; padding: 12px 18px 14px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.14) 0 6px, rgba(30,45,25,0.92) 6px 100%); }
+.roots-drawer[hidden] { display: none; }
+.roots-head { font-size: 0.8rem; font-weight: 600; color: #f5efe0; margin-bottom: 6px; text-align: center; }
+.roots-table { width: 100%; border-collapse: collapse; }
+.roots-table th { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,239,224,0.7);
+  background: transparent; text-align: left; padding: 6px 10px; border-bottom: 1px solid rgba(245,239,224,0.35); }
+.roots-table td { font-size: 0.78rem; line-height: 1.4; color: #f5efe0; text-align: left; vertical-align: top;
+  padding: 7px 10px; border-bottom: 1px solid rgba(245,239,224,0.16); }
+.roots-table tr:last-child td { border-bottom: 0; }
+
+/* ---------- 1 · FOREST (replacement of the old .forest block) ---------- */
+.scene-forest { display: flex; align-items: flex-end; justify-content: center;
+  min-height: 300px;
+  background:
+    radial-gradient(circle at 82% 12%, rgba(255,244,196,0.9) 0 34px, rgba(255,244,196,0) 70px),
+    linear-gradient(to bottom, transparent 52%, rgba(233,243,230,0.75) 62%, transparent 74%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='130' viewBox='0 0 260 130'><path d='M0 130 L0 86 L16 86 L26 42 L36 86 L54 86 L63 60 L72 86 L96 86 L106 24 L116 86 L142 86 L151 64 L160 86 L182 86 L191 38 L200 86 L218 86 L226 62 L234 86 L260 86 L260 130 Z' fill='%23558a4b'/></svg>") repeat-x left bottom 86px / 260px 130px,
+    linear-gradient(to bottom, #b9d8ea 0%, #d9ecda 46%, #cfe4c6 100%);
+}
+.scene-forest::after { content: ""; position: absolute; left: -4%; right: -4%; bottom: 0; height: 96px; z-index: 0;
+  background:
+    repeating-linear-gradient(100deg, rgba(255,255,255,0.05) 0 3px, transparent 3px 9px),
+    linear-gradient(to bottom, #5d8f52 0 10px, #4c7a42 10px 16px, #6b4f36 16px 60%, #523b27 100%);
+  border-radius: 50% 50% 0 0 / 26px 26px 0 0; }
+.scene-forest .tree { display: flex; flex-direction: column; align-items: center; flex: none;
+  margin: 0 4px; text-align: center; }
+.scene-forest .tree:nth-child(odd)  { z-index: 1; transform: scale(0.88); filter: brightness(0.9); }
+.scene-forest .tree:nth-child(even) { z-index: 2; }
+.scene-forest .canopy { position: relative; display: grid; place-items: center;
+  width: var(--tree, 56px); height: var(--tree, 56px); animation: sway 7s ease-in-out infinite alternate;
+  transform-origin: 50% 100%; }
+.scene-forest .tree:nth-child(2n) .canopy { animation-delay: -2.3s; animation-duration: 8.2s; }
+.scene-forest .tree:nth-child(3n) .canopy { animation-delay: -4.1s; }
+@keyframes sway { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
+.scene-forest .canopy-icon { font-size: calc(var(--tree, 56px) * 0.4); line-height: 1;
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 4px rgba(255,255,255,0.9)); }
+.scene-forest .crown-wide, .scene-forest .crown-bush, .scene-forest .crown-broad { border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #a8dc9c, #4e9a4a 70%, #2f6b2b); }
+.scene-forest .crown-wide::before, .scene-forest .crown-bush::before, .scene-forest .crown-broad::before,
+.scene-forest .crown-wide::after,  .scene-forest .crown-bush::after,  .scene-forest .crown-broad::after {
+  content: ""; position: absolute; border-radius: 50%; z-index: -1; }
+.scene-forest .crown-wide::before  { width: 62%; height: 62%; left: -22%; top: 24%; background: #3f8a3d; }
+.scene-forest .crown-wide::after   { width: 56%; height: 56%; right: -20%; top: 18%; background: #357a34; }
+.scene-forest .crown-bush::before  { width: 58%; height: 58%; left: -18%; top: 30%; background: #6fae5f; }
+.scene-forest .crown-bush::after   { width: 50%; height: 50%; right: -16%; top: 26%; background: #5d9c50; }
+.scene-forest .crown-broad::before { width: 60%; height: 60%; left: -20%; top: 22%; background: #8fbf68; }
+.scene-forest .crown-broad::after  { width: 54%; height: 54%; right: -18%; top: 20%; background: #7aa85a; }
+.scene-forest .crown-fir { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 130'><path d='M50 2 L60 24 L54 24 L68 46 L60 46 L76 70 L58 70 L58 128 L42 128 L42 70 L24 70 L40 46 L32 46 L46 24 L40 24 Z' fill='%232e6b2e'/><path d='M50 2 L60 24 L54 24 L68 46 L60 46 L76 70 L58 70 L58 128 L50 128 Z' fill='%23397d35'/></svg>") no-repeat center / contain; }
+.scene-forest .crown-palm { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'><path d='M46 118 L50 60 L54 118 Z' fill='%237a5c3e'/><path d='M50 60 Q20 30 6 44 Q28 34 50 56 Q44 22 28 18 Q48 22 52 52 Q62 20 80 22 Q62 28 54 56 Q78 36 94 46 Q76 32 52 60 Z' fill='%233e8a3c'/></svg>") no-repeat center / contain; }
+.scene-forest .crown-flower  { clip-path: polygon(50% 0%, 62% 29%, 93% 25%, 74% 50%, 93% 75%, 62% 71%, 50% 100%, 38% 71%, 7% 75%, 26% 50%, 7% 25%, 38% 29%); background: radial-gradient(circle at 50% 50%, #f7edb0 0 20%, #7ec878 44%, #3d7c37 82%); }
+.scene-forest .crown-blossom { clip-path: polygon(50% 0%, 69% 17%, 93% 25%, 88% 50%, 93% 75%, 69% 83%, 50% 100%, 31% 83%, 7% 75%, 12% 50%, 7% 25%, 31% 17%); background: radial-gradient(circle at 50% 42%, #ffe07a 0 16%, #86c97e 38%, #3a7a34 80%); }
+.scene-forest .crown-bamboo { width: calc(var(--tree, 56px) * 0.9); height: calc(var(--tree, 56px) * 1.05);
+  background: none; display: flex; align-items: flex-end; justify-content: center; gap: calc(var(--tree, 56px) * 0.09); }
+.scene-forest .crown-bamboo + .trunk { display: none; }
+.scene-forest .crown-bamboo i { position: relative; width: calc(var(--tree, 56px) * 0.11); border-radius: 999px;
+  background: repeating-linear-gradient(to bottom, #93c65e 0 11%, #5d8f3e 11% 14%); }
+.scene-forest .crown-bamboo i:nth-child(1) { height: 86%; } .scene-forest .crown-bamboo i:nth-child(2) { height: 100%; } .scene-forest .crown-bamboo i:nth-child(3) { height: 76%; }
+.scene-forest .crown-bamboo i::before, .scene-forest .crown-bamboo i::after { content: ""; position: absolute;
+  width: calc(var(--tree, 56px) * 0.24); height: calc(var(--tree, 56px) * 0.1);
+  background: linear-gradient(135deg, #86c661, #4a8a3f); border-radius: 100% 4% 100% 4%; }
+.scene-forest .crown-bamboo i::before { top: 16%; left: 70%; transform: rotate(28deg); }
+.scene-forest .crown-bamboo i::after  { top: 36%; right: 70%; transform: rotate(-28deg) scaleX(-1); }
+.scene-forest .trunk { width: calc(var(--tree, 56px) * 0.15); height: calc(var(--tree, 56px) * 0.42);
+  border-radius: 3px; background: linear-gradient(to right, #5d4037, #a1887f 45%, #4e342e);
+  box-shadow: 0 6px 4px -2px rgba(20, 40, 20, 0.45); }
+.scene-forest .tree-name, .scene-farm .crop-name, .scene-pasture .animal-name, .scene-craft .craft-name, .scene-circular .cycle-name {
+  display: inline-block; margin-top: 6px; padding: 3px 9px; border-radius: 999px;
+  font-size: 0.74rem; font-weight: 600; color: #f5efe0; background: rgba(27, 45, 27, 0.82); }
+.scene-forest .grant-toggle { color: #f5efe0; }
+.scene-forest .tree.open { z-index: 6; }
+.scene-forest .tree.open .canopy { filter: drop-shadow(0 0 14px rgba(255, 224, 122, 0.85)); }
+@media (max-width: 700px) { .scene-forest { flex-wrap: wrap; } }
+
+/* ---------- 2 · FARM — chains as crop rows on a cultivated field ---------- */
+.scene-farm { display: flex; flex-direction: column; gap: 10px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255,244,196,0.85) 0 30px, rgba(255,244,196,0) 62px),
+    linear-gradient(to bottom, #b9d8ea 0 54px, transparent 54px),
+    repeating-linear-gradient(to bottom, #8a6a48 0 34px, #75563a 34px 44px),
+    #8a6a48;
+}
+.scene-farm::before { content: ""; position: absolute; left: 0; right: 0; top: 40px; height: 26px; z-index: 0;
+  background:
+    repeating-linear-gradient(to right, transparent 0 34px, rgba(122, 92, 62, 0.95) 34px 38px),
+    linear-gradient(to bottom, transparent 8px, rgba(122, 92, 62, 0.8) 8px 11px, transparent 11px 18px, rgba(122, 92, 62, 0.8) 18px 21px, transparent 21px);
+}
+.scene-farm::after { content: ""; position: absolute; left: -4%; right: -4%; bottom: 0; height: 14px; z-index: 0;
+  background: linear-gradient(to bottom, #4c7a42, #3c6334); }
+.scene-farm .crop { display: flex; align-items: center; gap: 12px; padding: 6px 14px 8px; border-radius: 10px; z-index: 1;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.22));
+  box-shadow: inset 0 6px 6px -4px rgba(40, 26, 12, 0.55); }
+.scene-farm .crop:hover { background: linear-gradient(to bottom, rgba(0,0,0,0.04), rgba(0,0,0,0.16)); }
+.scene-farm .crop-plants { display: flex; align-items: flex-end; gap: 6px; flex: 1; overflow: hidden; white-space: nowrap; }
+.scene-farm .crop-plants span { font-size: calc(var(--crop, 40px) * 1px); line-height: 1;
+  filter: drop-shadow(0 3px 2px rgba(30, 20, 8, 0.45)); animation: sprout 900ms ease both; }
+.scene-farm .crop-plants span:nth-child(2n) { transform: scaleX(-1); }
+@keyframes sprout { from { transform: translateY(10px) scale(0.2); opacity: 0; } to { opacity: 1; } }
+.scene-farm .crop .sign { flex: none; text-align: right; }
+.scene-farm .crop .grant-toggle { color: #f5efe0; }
+/* ---------- 3 · PASTURE — cow on the left, silage heap centre, fish pond right ---------- */
+.scene-pasture { display: flex; align-items: flex-end; justify-content: space-between; min-height: 250px;
+  padding: 30px 5% 22px;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(255,244,196,0.85) 0 30px, rgba(255,244,196,0) 62px),
+    linear-gradient(to bottom, #b9d8ea 0 48px, #cde6b8 48px 90px, #9ccb7f 90px 100%);
+}
+.scene-pasture::after { content: ""; position: absolute; left: -4%; right: -4%; bottom: 0; height: 60px; z-index: 0;
+  background:
+    repeating-linear-gradient(100deg, rgba(255,255,255,0.06) 0 3px, transparent 3px 9px),
+    linear-gradient(to bottom, #7db563 0 12px, #5d8f47 12px 100%);
+  border-radius: 50% 50% 0 0 / 18px 18px 0 0; }
+/* pond sits on the RIGHT side of the farm */
+.scene-pasture::before { content: ""; position: absolute; right: 4%; bottom: 10px; z-index: 0;
+  width: 210px; height: 82px;
+  background: radial-gradient(ellipse at 50% 40%, #8fd0e8 0%, #5aa8cc 70%, #4a90b8 100%);
+  border-radius: 50%; box-shadow: inset 0 -8px 12px rgba(20, 60, 90, 0.35), 0 4px 6px rgba(30, 60, 30, 0.25); }
+.scene-pasture .animal { display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 1; }
+/* side assignment: cow left · silage centre · fish over the pond */
+.scene-pasture .animal[data-category="dairy"]  { order: 0; }
+.scene-pasture .animal[data-category="silage"] { order: 1; margin: 0 auto; }
+.scene-pasture .animal[data-category="fish"]   { order: 2; margin-right: 9%; }
+/* cow grazes */
+.scene-pasture .animal-emoji { position: relative; font-size: var(--size, 46px); line-height: 1;
+  animation: graze 5s ease-in-out infinite alternate; transform-origin: 50% 100%; }
+@keyframes graze { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(3deg) translateY(2px); } }
+/* fish jump above the pond */
+.scene-pasture .animal[data-category="fish"] { transform: translateY(-16px); }
+.scene-pasture .animal[data-category="fish"] .animal-emoji { animation: fishjump 3.2s ease-in-out infinite; }
+@keyframes fishjump { 0%, 100% { transform: translateY(0) rotate(-10deg); } 50% { transform: translateY(-16px) rotate(10deg); } }
+/* splash under the fish instead of a ground shadow */
+.scene-pasture .animal[data-category="fish"] .animal-emoji::after { content: ""; position: absolute; left: -10%; right: -10%; bottom: -12px; height: 10px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.9), transparent 70%); border-radius: 50%; }
+/* silage heap: golden mound with a hay tuft on top (replaces the emoji) */
+.scene-pasture .animal[data-category="silage"] .animal-emoji { width: calc(var(--size, 46px) * 1.9); height: calc(var(--size, 46px) * 1.15);
+  display: block; border-radius: 50% 50% 14% 14% / 100% 100% 8% 8%;
+  background:
+    repeating-linear-gradient(100deg, rgba(120, 80, 20, 0.28) 0 3px, transparent 3px 8px),
+    radial-gradient(ellipse at 50% 28%, #f2dd8a 0%, #dcae4e 52%, #a97a28 100%);
+  box-shadow: inset 0 -10px 14px rgba(90, 60, 15, 0.45), 0 6px 6px -2px rgba(20, 40, 15, 0.4); }
+.scene-pasture .animal[data-category="silage"] .animal-emoji::after { content: "🌾"; position: absolute; left: 50%; top: -18px;
+  transform: translateX(-50%); font-size: calc(var(--size, 46px) * 0.6); }
+/* ground shadow for the cow */
+.scene-pasture .animal-emoji::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: -6px; height: 8px;
+  background: radial-gradient(ellipse, rgba(20, 40, 15, 0.4), transparent 70%); border-radius: 50%; }
+.scene-pasture .grant-toggle { color: #f5efe0; }
+
+/* ---------- 4 · CRAFT — outdoor craft bazaar: same sky & grass as the other scenes ---------- */
+.scene-craft { display: flex; align-items: flex-end; justify-content: center; gap: 44px; min-height: 230px;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(255,244,196,0.85) 0 30px, rgba(255,244,196,0) 62px),
+    linear-gradient(to bottom, #b9d8ea 0 48px, #cde6b8 48px 90px, #9ccb7f 90px 100%);
+}
+.scene-craft::after { content: ""; position: absolute; left: -4%; right: -4%; bottom: 0; height: 70px; z-index: 0;
+  background:
+    repeating-linear-gradient(100deg, rgba(255,255,255,0.06) 0 3px, transparent 3px 9px),
+    linear-gradient(to bottom, #7db563 0 12px, #5d8f47 12px 100%);
+  border-radius: 50% 50% 0 0 / 18px 18px 0 0; }
+/* each product sits on a woven mat */
+.scene-craft .craft { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 1;
+  transition: transform .25s; }
+.scene-craft .craft::before { content: ""; position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%) rotate(45deg);
+  width: calc(var(--size, 44px) * 1.9); height: calc(var(--size, 44px) * 1.9); z-index: -1;
+  background:
+    repeating-linear-gradient(45deg, #d9a83f 0 6px, #c19235 6px 12px),
+    repeating-linear-gradient(-45deg, rgba(90, 60, 15, 0.18) 0 6px, transparent 6px 12px);
+  border-radius: 8%;
+  box-shadow: 0 6px 6px -2px rgba(20, 40, 15, 0.4); }
+.scene-craft .craft:hover { transform: translateY(-6px); }
+.scene-craft .craft-emoji { position: relative; font-size: var(--size, 44px); line-height: 1;
+  filter: drop-shadow(0 6px 4px rgba(40, 25, 10, 0.4)); }
+.scene-craft .craft-emoji::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: -8px; height: 9px;
+  background: radial-gradient(ellipse, rgba(30, 18, 6, 0.45), transparent 70%); border-radius: 50%; }
+.scene-craft .grant-toggle { color: #f5efe0; }
+/* ---------- 5 · CIRCULAR — bio-fertilizer icon at the centre, enterprises around it ---------- */
+.scene-circular { display: grid; place-items: center; min-height: 340px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 244, 196, 0.25), transparent 46%),
+    linear-gradient(to bottom, #33502f 0%, #243d22 100%); }
+/* bio-fertilizer flask at the centre, soft green halo + pulse */
+.scene-circular::before { content: "🧪"; position: absolute; left: 50%; top: 46%;
+  width: 150px; height: 150px; display: grid; place-items: center; transform: translate(-50%, -50%);
+  font-size: 68px; line-height: 1; border-radius: 50%;
+  background: radial-gradient(circle, rgba(156, 204, 101, 0.35) 0 45%, transparent 72%);
+  filter: drop-shadow(0 0 16px rgba(156, 204, 101, 0.65));
+  animation: bio-pulse 3.4s ease-in-out infinite; }
+@keyframes bio-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.09); } }
+/* enterprises arranged in a circle around the flask (--a set in render) */
+.scene-circular .cycle-item { position: absolute; left: 50%; top: 46%; display: flex; flex-direction: column; align-items: center;
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(-150px) rotate(calc(-1 * var(--a)));
+  text-align: center; transition: transform .25s; }
+.scene-circular .cycle-item:hover { transform: translate(-50%, -50%) rotate(var(--a)) translateY(-150px) rotate(calc(-1 * var(--a))) scale(1.18); }
+.scene-circular .cycle-emoji { font-size: var(--size, 40px); line-height: 1; filter: drop-shadow(0 0 8px rgba(156, 204, 101, 0.5)); }
+.scene-circular .cycle-name { background: rgba(245, 239, 224, 0.14); }
+.scene-circular .cycle-item .grant-toggle { color: #dcedc8; }

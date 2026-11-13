@@ -116,33 +116,107 @@
     return t;
   }
 
+  // ---------- scene system: group -> scene class + item builder ----------
+const SCENE_CLASS = {
+  'Forest-based': 'scene-forest',
+  'Agriculture & agroforestry': 'scene-farm',
+  'Livestock & fisheries': 'scene-pasture',
+  'Handicraft & fibre': 'scene-craft',
+  'Circular / green enterprises': 'scene-circular',
+};
+const itemFor = (group, p) =>
+  group === 'Forest-based' ? treeFor(p) :
+  group === 'Agriculture & agroforestry' ? cropFor(p) :
+  group === 'Livestock & fisheries' ? animalFor(p) :
+  group === 'Handicraft & fibre' ? craftFor(p) :
+  group === 'Circular / green enterprises' ? cycleFor(p) :
+  cardFor(p);
+
+const CROP_GLYPH = { 'Agri products': '🌽', 'Vegetables': '🥦', 'PGS': '📜', 'Timur': '🌶️',
+  'Turmeric': '🫚', 'Ginger': '🫚', 'Nursery': '🌱', 'Amala': '🫒', 'Lime': '🍋' };
+function cropFor(p) {
+  const c = document.createElement('div');
+  c.className = 'crop product-card';
+  c.dataset.category = slug(p.subcategory);
+  c.dataset.name = (p.name || '').toLowerCase();
+  c.style.setProperty('--crop', Math.min(54, 30 + p.count * 3));
+  const glyph = CROP_GLYPH[p.subcategory] || '🌱';
+  const plants = Math.min(9, 2 + p.count);
+  c.innerHTML = `<div class="crop-plants">${`<span>${glyph}</span>`.repeat(plants)}</div>
+    <div class="sign"><span class="crop-name">${escapeHtml(p.subcategory)}</span><br>
+    <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button></div>`;
+  return c;
+}
+
+const ANIMAL_GLYPH = { 'Dairy': '🐄', 'Silage': '🌾', 'Fish': '🐟' };
+function animalFor(p) {
+  const a = document.createElement('div');
+  a.className = 'animal product-card';
+  a.dataset.category = slug(p.subcategory);
+  a.dataset.name = (p.name || '').toLowerCase();
+  a.style.setProperty('--size', Math.min(72, 42 + p.count * 4) + 'px');
+  a.innerHTML = `<span class="animal-emoji" aria-hidden="true">${ANIMAL_GLYPH[p.subcategory] || '🐐'}</span>
+    <span class="animal-name">${escapeHtml(p.subcategory)}</span>
+    <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button>`;
+  return a;
+}
+
+const CRAFT_GLYPH = { 'Allo': '🪢' };   // 🪢 = rope/knot for allo & fibre
+function craftFor(p) {
+  const c = document.createElement('div');
+  c.className = 'craft product-card';
+  c.dataset.category = slug(p.subcategory);
+  c.dataset.name = (p.name || '').toLowerCase();
+  c.style.setProperty('--size', Math.min(64, 40 + p.count * 4) + 'px');
+  const art = p.subcategory === 'Handicraft'
+    ? '<span class="craft-emoji leaf-plate" aria-hidden="true"></span>'          // sal leaf plate, CSS art
+    : `<span class="craft-emoji" aria-hidden="true">${CRAFT_GLYPH[p.subcategory] || '🧺'}</span>`;
+  c.innerHTML = `${art}
+    <span class="craft-name">${escapeHtml(p.subcategory)}</span>
+    <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button>`;
+  return c;
+}
+
+function cycleFor(p) {
+  const c = document.createElement('div');
+  c.className = 'cycle-item product-card';
+  c.dataset.category = slug(p.subcategory);
+  c.dataset.name = (p.name || '').toLowerCase();
+  c.style.setProperty('--size', Math.min(58, 38 + p.count * 4) + 'px');
+  c.innerHTML = `<span class="cycle-emoji" aria-hidden="true">♻️</span>
+    <span class="cycle-name">${escapeHtml(p.subcategory)}</span>
+    <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button>`;
+  return c;
+}
+
   function render(products, subcategories) {
     const g=grid(); if(!g) return;
     g.innerHTML='';
     // one section per category; cards keep the incoming order (grant count desc) inside a section
     let sections=0;
     GROUP_ORDER.forEach(name=>{
-      const inGroup=products.filter(p=>groupOf(p.subcategory)===name);
-      if(!inGroup.length) return;
-      sections++;
-      const head=document.createElement('h2');
-      head.className='cat-heading';
-      head.innerHTML=`<span class="cat-icon" aria-hidden="true">${GROUP_ICON[name]||''}</span><span class="cat-name">${escapeHtml(name)}</span><span class="muted">${inGroup.length} chain${inGroup.length>1?'s':''}</span>`;
-      const row=document.createElement('div');
-      const forest = name==='Forest-based';
-      row.className = (forest? 'forest' : 'grid-3') + ' cat-row';
-      inGroup.forEach((p)=>{ chainBySlug[slug(p.subcategory)]=p; row.appendChild(forest? treeFor(p) : cardFor(p)); });
-      g.appendChild(head); g.appendChild(row);
-      if(forest){
-        // shared roots drawer: one Organization × Grant title table below the soil, filled on open.
-        // A shared block (not per-tree) so opening a tree never moves any tree.
-        const drawer=document.createElement('div');
-        drawer.className='roots-drawer'; drawer.hidden=true;
-        drawer.innerHTML=`<div class="roots-head" aria-live="polite"></div>
-          <table class="roots-table"><thead><tr><th scope="col">Organization</th><th scope="col">Grant title</th></tr></thead><tbody></tbody></table>`;
-        g.appendChild(drawer);
-      }
-    });
+  const inGroup=products.filter(p=>groupOf(p.subcategory)===name);
+  if(!inGroup.length) return;
+  sections++;
+  const head=document.createElement('h2');
+  head.className='cat-heading';
+  head.innerHTML=`<span class="cat-icon" aria-hidden="true">${GROUP_ICON[name]||''}</span><span class="cat-name">${escapeHtml(name)}</span><span class="muted">${inGroup.length} chain${inGroup.length>1?'s':''}</span>`;
+  const row=document.createElement('div');
+  row.className = 'cat-row scene ' + (SCENE_CLASS[name] || '');
+  inGroup.forEach((p)=>{ chainBySlug[slug(p.subcategory)]=p; row.appendChild(itemFor(name, p)); });
+  g.appendChild(head); g.appendChild(row);
+  if (SCENE_CLASS[name]) {
+    const drawer=document.createElement('div');
+    drawer.className='roots-drawer'; drawer.hidden=true;
+    drawer.innerHTML=`<div class="roots-head" aria-live="polite"></div>
+      <table class="roots-table"><thead><tr><th scope="col">Organization</th><th scope="col">Grant title</th></tr></thead><tbody></tbody></table>`;
+    g.appendChild(drawer);
+    if (name === 'Circular / green enterprises') {
+      const items = row.querySelectorAll('.cycle-item');
+      items.forEach((el, i) => el.style.setProperty('--a', (i * 360 / items.length) + 'deg'));
+    }
+  }
+});
     // update lead
     if(lead()) lead().textContent=`${products.length} chains in ${sections} categories — 68 organizations · 73 grants. Filter by chain or search.`;
     // populate filter options (keep All), grouped the same way as the grid
@@ -173,37 +247,37 @@
   // changes layout on open (no branches/strand elements in flow) — tree positions never change.
   const gridEl = document.getElementById('catalogGrid');
   const rootsDrawer = () => gridEl.querySelector('.roots-drawer');
-  function closeTrees(){
-    gridEl.querySelectorAll('.tree.open').forEach(o => {
-      o.classList.remove('open');
-      const b = o.querySelector('.grant-toggle');
-      if(b){ b.setAttribute('aria-expanded','false'); b.textContent = b.textContent.replace('▴','▾'); }
-    });
-    const d = rootsDrawer();
-    if(d) d.hidden = true;
+  function drawerFor(el) { const s = el.closest('.scene'); return s ? s.nextElementSibling : null; }
+function closeTrees(){
+  gridEl.querySelectorAll('.product-card.open').forEach(o => {
+    o.classList.remove('open');
+    const b = o.querySelector('.grant-toggle');
+    if(b){ b.setAttribute('aria-expanded','false'); b.textContent = b.textContent.replace('▴','▾'); }
+  });
+  gridEl.querySelectorAll('.roots-drawer').forEach(d => d.hidden = true);
+}
+function openTree(item){
+  const p = chainBySlug[item.dataset.category];
+  closeTrees();
+  item.classList.add('open');
+  const btn = item.querySelector('.grant-toggle');
+  btn.setAttribute('aria-expanded','true');
+  btn.textContent = btn.textContent.replace('▾','▴');
+  const d = drawerFor(item);
+  if(d && p){
+    d.querySelector('.roots-head').textContent = `${p.subcategory} — ${p.count>1? p.count+' grants': '1 grant'}`;
+    d.querySelector('.roots-table tbody').innerHTML = (p.rows||[]).map(r=>`<tr><td>${escapeHtml(r.org||'—')}</td><td>${escapeHtml(r.title||'—')}</td></tr>`).join('');
+    d.hidden = false;
   }
-  function openTree(tree){
-    const p = chainBySlug[tree.dataset.category];
-    closeTrees();
-    tree.classList.add('open');
-    const btn = tree.querySelector('.grant-toggle');
-    btn.setAttribute('aria-expanded','true');
-    btn.textContent = btn.textContent.replace('▾','▴');
-    const d = rootsDrawer();
-    if(d && p){
-      d.querySelector('.roots-head').textContent = `${p.subcategory} — ${p.count>1? p.count+' grants': '1 grant'}`;
-      d.querySelector('.roots-table tbody').innerHTML = (p.rows||[]).map(r=>`<tr><td>${escapeHtml(r.org||'—')}</td><td>${escapeHtml(r.title||'—')}</td></tr>`).join('');
-      d.hidden = false;
-    }
-  }
+}
   if(gridEl && !gridEl.dataset.treeToggle){
     gridEl.dataset.treeToggle = '1';
     gridEl.addEventListener('click', ev => {
       const btn = ev.target.closest('.grant-toggle');
       if(!btn) return;
-      const tree = btn.closest('.tree');
-      if(tree.classList.contains('open')) closeTrees();
-      else openTree(tree);
+      const item = btn.closest('.product-card');
+if(item.classList.contains('open')) closeTrees();
+else openTree(item);
     });
   }
 
