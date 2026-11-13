@@ -12,7 +12,8 @@
   color: inherit; text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; }
 .scene .grant-toggle:hover { text-decoration-style: solid; }
 /* shared roots drawer (one per scene group) */
-.roots-drawer { margin: 12px auto 0; max-width: 1020px; border-radius: 12px; padding: 12px 18px 14px;
+.roots-drawer { position: relative; z-index: 1;   /* above the scene ::before/::after decor */
+  margin: 12px auto 0; max-width: 1020px; border-radius: 12px; padding: 12px 18px 14px;
   background: linear-gradient(to bottom, rgba(255,255,255,0.14) 0 6px, rgba(30,45,25,0.92) 6px 100%); }
 .roots-drawer[hidden] { display: none; }
 .roots-head { font-size: 0.8rem; font-weight: 600; color: #f5efe0; margin-bottom: 6px; text-align: center; }
@@ -87,7 +88,7 @@
 @media (max-width: 700px) { .scene-forest { flex-wrap: wrap; } }
 
 /* ---------- 2 · FARM — chains as crop rows on a cultivated field ---------- */
-.scene-farm { display: flex; flex-direction: column; gap: 10px;
+.scene-farm { display: flex; flex-direction: column; gap: 18px;
   background:
     radial-gradient(circle at 12% 10%, rgba(255,244,196,0.85) 0 30px, rgba(255,244,196,0) 62px),
     linear-gradient(to bottom, #b9d8ea 0 54px, transparent 54px),
@@ -103,16 +104,37 @@
   background: linear-gradient(to bottom, #4c7a42, #3c6334); }
 .scene-farm .crop { display: flex; align-items: center; gap: 12px; padding: 6px 14px 8px; border-radius: 10px; z-index: 1;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.22));
-  box-shadow: inset 0 6px 6px -4px rgba(40, 26, 12, 0.55); }
+  box-shadow: inset 0 6px 6px -4px rgba(40, 26, 12, 0.55),
+              inset 0 0 0 1px rgba(245, 239, 224, 0.22); }      /* plot edge: each row is its own bed */
 .scene-farm .crop:hover { background: linear-gradient(to bottom, rgba(0,0,0,0.04), rgba(0,0,0,0.16)); }
 .scene-farm .crop-plants { display: flex; align-items: flex-end; gap: 6px; flex: 1; overflow: hidden; white-space: nowrap; }
 .scene-farm .crop-plants span { font-size: calc(var(--crop, 40px) * 1px); line-height: 1;
   filter: drop-shadow(0 3px 2px rgba(30, 20, 8, 0.45)); animation: sprout 900ms ease both; }
 .scene-farm .crop-plants span:nth-child(2n) { transform: scaleX(-1); }
+.scene-farm .crop-img { display: block; width: calc(var(--crop, 40px) * 1px); height: calc(var(--crop, 40px) * 1px);
+  object-fit: cover; border-radius: 50%; box-shadow: 0 3px 4px -2px rgba(30, 20, 8, 0.5); }
+/* turmeric is sold as powder — a drawn heap cannot be mistaken for ginger */
+.scene-farm .crop-plants span.powder { display: inline-block; width: calc(var(--crop, 40px) * 1px * 1.6);
+  height: calc(var(--crop, 40px) * 1px * 0.64); align-self: flex-end;
+  border-radius: 50% 50% 18% 18% / 100% 100% 12% 12%;
+  background: radial-gradient(ellipse at 50% 26%, #ffe9a3 0%, #f2c230 55%, #cf970f 100%);
+  box-shadow: inset 0 -6px 8px rgba(150, 95, 10, 0.45), 0 4px 5px -2px rgba(30, 20, 8, 0.5); }
+.scene-farm .crop-plants span.powder:nth-child(2n) { transform: none; }
+/* timur and amala are photos now (no emoji matches); hue-rotating them would undo the whole point */
+.scene-farm .crop[data-category="timur"] .crop-plants span,
+.scene-farm .crop[data-category="amala"] .crop-plants span { filter: none; }
 @keyframes sprout { from { transform: translateY(10px) scale(0.2); opacity: 0; } to { opacity: 1; } }
 .scene-farm .crop .sign { flex: none; text-align: right; }
 .scene-farm .crop .grant-toggle { color: #f5efe0; }
-/* ---------- 3 · PASTURE — cow on the left, silage heap centre, fish pond right ---------- */
+/* one plot = one bed: a faint rimmed patch keeps neighbouring plots visually separate */
+.scene-pasture .animal, .scene-craft .craft { border-radius: 16px; padding: 10px 16px 12px;
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55), 0 8px 14px -8px rgba(25, 45, 20, 0.6); }
+/* repeated glyphs (one per grant) wrap instead of squeezing the label out of the plot */
+.animal-emojis, .craft-emojis, .cycle-emojis { display: flex; flex-wrap: wrap; justify-content: center;
+  align-items: flex-end; gap: 0 4px; max-width: 340px; }
+
+/* ---------- 3 · PASTURE — herd in a barn, silage heap centre, fish in a pond ---------- */
 .scene-pasture { display: flex; align-items: flex-end; justify-content: space-between; min-height: 250px;
   padding: 30px 5% 22px;
   background:
@@ -124,27 +146,42 @@
     repeating-linear-gradient(100deg, rgba(255,255,255,0.06) 0 3px, transparent 3px 9px),
     linear-gradient(to bottom, #7db563 0 12px, #5d8f47 12px 100%);
   border-radius: 50% 50% 0 0 / 18px 18px 0 0; }
-/* pond sits on the RIGHT side of the farm */
-.scene-pasture::before { content: ""; position: absolute; right: 4%; bottom: 10px; z-index: 0;
-  width: 210px; height: 82px;
-  background: radial-gradient(ellipse at 50% 40%, #8fd0e8 0%, #5aa8cc 70%, #4a90b8 100%);
-  border-radius: 50%; box-shadow: inset 0 -8px 12px rgba(20, 60, 90, 0.35), 0 4px 6px rgba(30, 60, 30, 0.25); }
 .scene-pasture .animal { display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 1; }
-/* side assignment: cow left · silage centre · fish over the pond */
-.scene-pasture .animal[data-category="dairy"]  { order: 0; }
+/* side assignment: barn left · silage centre · fish pond right. Barn and pond draw their own ground,
+   so neither plot keeps the white panel. */
+.scene-pasture .animal[data-category="dairy"]  { order: 0; background: none; box-shadow: none; }
 .scene-pasture .animal[data-category="silage"] { order: 1; margin: 0 auto; }
-.scene-pasture .animal[data-category="fish"]   { order: 2; margin-right: 9%; }
-/* cow grazes */
+.scene-pasture .animal[data-category="fish"]   { order: 2; margin-right: 6%; background: none; box-shadow: none; }
+/* the herd stands inside a barn: straw plank wall, red frame, white trim, gable roof over the box */
+.scene-pasture .animal[data-category="dairy"] .animal-emojis {
+  position: relative; max-width: 400px; padding: 14px 18px 16px; border-radius: 3px 3px 0 0;
+  background: repeating-linear-gradient(90deg, #cbb083 0 16px, #c0a375 16px 32px);
+  box-shadow: inset 0 0 0 4px #a8432f, inset 0 0 0 6px #f0e6d2,
+              inset 0 -12px 14px -10px rgba(80, 50, 20, 0.7), 0 8px 12px -6px rgba(25, 45, 20, 0.55); }
+.scene-pasture .animal[data-category="dairy"] .animal-emojis::before,
+.scene-pasture .animal[data-category="dairy"] .animal-emojis::after { content: ""; position: absolute;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.scene-pasture .animal[data-category="dairy"] .animal-emojis::before { left: -14px; right: -14px; top: -34px; height: 36px; background: #f0e6d2; }
+.scene-pasture .animal[data-category="dairy"] .animal-emojis::after  { left: -9px;  right: -9px;  top: -29px; height: 30px; background: #a8432f; }
+/* cow and buffalo graze */
 .scene-pasture .animal-emoji { position: relative; font-size: var(--size, 46px); line-height: 1;
   animation: graze 5s ease-in-out infinite alternate; transform-origin: 50% 100%; }
 @keyframes graze { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(3deg) translateY(2px); } }
-/* fish jump above the pond */
-.scene-pasture .animal[data-category="fish"] { transform: translateY(-16px); }
-.scene-pasture .animal[data-category="fish"] .animal-emoji { animation: fishjump 3.2s ease-in-out infinite; }
-@keyframes fishjump { 0%, 100% { transform: translateY(0) rotate(-10deg); } 50% { transform: translateY(-16px) rotate(10deg); } }
-/* splash under the fish instead of a ground shadow */
-.scene-pasture .animal[data-category="fish"] .animal-emoji::after { content: ""; position: absolute; left: -10%; right: -10%; bottom: -12px; height: 10px;
-  background: radial-gradient(ellipse, rgba(255,255,255,0.9), transparent 70%); border-radius: 50%; }
+/* fish are photo cutouts swimming in their own pond: no ripple/shadow trick, the PNG has its own edges */
+.scene-pasture .animal[data-category="fish"] .animal-emojis {
+  position: relative; max-width: 430px; gap: 6px 10px; padding: 18px 26px 20px; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 34%, #9ad8ee 0%, #5aa8cc 62%, #3f7fa6 100%);
+  box-shadow: inset 0 8px 10px -6px rgba(255, 255, 255, 0.8), inset 0 -14px 18px -10px rgba(14, 48, 74, 0.6),
+              0 6px 10px -6px rgba(20, 60, 30, 0.55); }
+.scene-pasture .animal[data-category="fish"] .animal-emoji { animation: fishjump 3.4s ease-in-out infinite; }
+.scene-pasture .fish-img { display: block; height: calc(var(--size, 46px) * 0.6); width: auto;
+  filter: drop-shadow(0 3px 2px rgba(10, 40, 60, 0.45)); }
+/* a thin water veil over the photos so they read as submerged, not pasted on the blue ellipse */
+.scene-pasture .animal[data-category="fish"] .animal-emojis::after { content: ""; position: absolute; inset: 0;
+  z-index: 2; pointer-events: none; border-radius: 50%;
+  background: linear-gradient(to bottom, rgba(133, 205, 235, 0.45) 0%, rgba(90, 168, 204, 0.18) 45%, rgba(38, 96, 130, 0.3) 100%); }
+@keyframes fishjump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+/* fish photos carry their own shape and shadow, so the ripple element is gone */
 /* silage heap: golden mound with a hay tuft on top (replaces the emoji) */
 .scene-pasture .animal[data-category="silage"] .animal-emoji { width: calc(var(--size, 46px) * 1.9); height: calc(var(--size, 46px) * 1.15);
   display: block; border-radius: 50% 50% 14% 14% / 100% 100% 8% 8%;
@@ -158,6 +195,9 @@
 .scene-pasture .animal-emoji::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: -6px; height: 8px;
   background: radial-gradient(ellipse, rgba(20, 40, 15, 0.4), transparent 70%); border-radius: 50%; }
 .scene-pasture .grant-toggle { color: #f5efe0; }
+/* narrow screens: barn, silage and pond stack instead of squeezing the pond onto the grass */
+@media (max-width: 760px) { .scene-pasture { flex-wrap: wrap; justify-content: center; gap: 24px; }
+  .scene-pasture .animal[data-category="fish"] { margin-right: 0; } }
 
 /* ---------- 4 · CRAFT — outdoor craft bazaar: same sky & grass as the other scenes ---------- */
 .scene-craft { display: flex; align-items: flex-end; justify-content: center; gap: 44px; min-height: 230px;
@@ -170,19 +210,16 @@
     repeating-linear-gradient(100deg, rgba(255,255,255,0.06) 0 3px, transparent 3px 9px),
     linear-gradient(to bottom, #7db563 0 12px, #5d8f47 12px 100%);
   border-radius: 50% 50% 0 0 / 18px 18px 0 0; }
-/* each product sits on a woven mat */
+/* the product itself sits on the grass — no woven mat under it */
 .scene-craft .craft { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 1;
   transition: transform .25s; }
-.scene-craft .craft::before { content: ""; position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%) rotate(45deg);
-  width: calc(var(--size, 44px) * 1.9); height: calc(var(--size, 44px) * 1.9); z-index: -1;
-  background:
-    repeating-linear-gradient(45deg, #d9a83f 0 6px, #c19235 6px 12px),
-    repeating-linear-gradient(-45deg, rgba(90, 60, 15, 0.18) 0 6px, transparent 6px 12px);
-  border-radius: 8%;
-  box-shadow: 0 6px 6px -2px rgba(20, 40, 15, 0.4); }
 .scene-craft .craft:hover { transform: translateY(-6px); }
 .scene-craft .craft-emoji { position: relative; font-size: var(--size, 44px); line-height: 1;
   filter: drop-shadow(0 6px 4px rgba(40, 25, 10, 0.4)); }
+/* sal-leaf plate is a photo cutout (transparent edges), sized from the same --size as the emoji.
+   It carries its own baked shadow, so the wrapper's drop-shadow is dropped (it used to fall on the badge) */
+.scene-craft .craft-img { display: block; height: var(--size, 44px); width: auto; }
+.scene-craft .craft-emoji:has(.craft-img) { filter: none; }
 .scene-craft .craft-emoji::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: -8px; height: 9px;
   background: radial-gradient(ellipse, rgba(30, 18, 6, 0.45), transparent 70%); border-radius: 50%; }
 .scene-craft .grant-toggle { color: #f5efe0; }

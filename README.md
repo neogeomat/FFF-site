@@ -26,7 +26,6 @@ website/
   js/main.js
   data/site.json, orgs.json, products.json
   assets/img/  (wire real .webp from /_components/v2/cb8c… when downloaded)
-  assets/docs/CatalogoFFFBo.pdf (placeholder)
 ```
 
 - Edit content in `data/*.json` and HTML `card` blocks — no React needed.

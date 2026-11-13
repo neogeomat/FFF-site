@@ -13,9 +13,9 @@
   // One distinct icon per subcategory (24): no repeats, so badge shape identifies the chain too
   const COMMODITY_ICON = {
     'Non-timber forest products': '🍄', 'Dairy': '🐄', 'Agri products': '🧺', 'Vegetables': '🥦',
-    'Fish': '🐟', 'PGS': '📜', 'Sal leaf plates': '🍽️', 'Timber': '🪵', 'Timur': '🌶️',
+    'Fish': '🐟', 'PGS': '📜', 'Sal leaf plates': '🍽️', 'Timber': '🪵', 'Timur': '🍇',
     'Bamboo': '🎋', 'Honey': '🍯', 'Nursery': '🌱', 'Ginger': '🫚', 'Herbal products': '🌿',
-    'Turmeric': '🍛', 'Allo': '🧵', 'Amala': '🫒', 'Fertiliser': '🧪', 'Cinnamon': '🍃',
+    'Turmeric': '🥣', 'Allo': '🧵', 'Amala': '🍏', 'Fertiliser': '🧪', 'Cinnamon': '🍃',
     'Essential Oil': '🧴', 'Handicraft': '🎨', 'Lime': '🍋', 'Silage': '🌾', 'Unclassified': '❓'
   };
   const COMMODITY_COLOR = {
@@ -132,46 +132,76 @@ const itemFor = (group, p) =>
   group === 'Circular / green enterprises' ? cycleFor(p) :
   cardFor(p);
 
-const CROP_GLYPH = { 'Agri products': '🌽', 'Vegetables': '🥦', 'PGS': '📜', 'Timur': '🌶️',
-  'Turmeric': '🫚', 'Ginger': '🫚', 'Nursery': '🌱', 'Amala': '🫒', 'Lime': '🍋' };
+// one glyph per grant, so the picture matches the count on the label. A chain with several grants
+// cycles species, which reads as a crop row instead of the same stamp repeated.
+const CROP_GLYPH = { 'Agri products': ['🌽','🌾'], 'Vegetables': ['🥦','🥕','🍅','🌽','🥬','🧅','🫑','🍆','🥒'],
+  'PGS': ['📜'], 'Turmeric': ['🥣'], 'Ginger': ['🫚'], 'Nursery': ['🌱'], 'Lime': ['🍋'] };
+// no emoji exists for these two, and the stand-ins (grapes, apple) read as the wrong fruit
+const CROP_IMG = { 'Timur': 'assets/img/catalog/timur.webp', 'Amala': 'assets/img/catalog/amala.webp' };
+const repeat = (html, n) => html.repeat(Math.max(1, n));
 function cropFor(p) {
   const c = document.createElement('div');
   c.className = 'crop product-card';
   c.dataset.category = slug(p.subcategory);
   c.dataset.name = (p.name || '').toLowerCase();
-  c.style.setProperty('--crop', Math.min(54, 30 + p.count * 3));
-  const glyph = CROP_GLYPH[p.subcategory] || '🌱';
-  const plants = Math.min(9, 2 + p.count);
-  c.innerHTML = `<div class="crop-plants">${`<span>${glyph}</span>`.repeat(plants)}</div>
+  const list = CROP_GLYPH[p.subcategory] || ['🌱'];
+  c.style.setProperty('--crop', Math.min(54, Math.round(340 / Math.max(1, p.count))));
+  // turmeric is sold as powder: a drawn heap reads better than any emoji (and stops clashing with ginger)
+  const plants = p.subcategory === 'Turmeric'
+    ? repeat('<span class="powder" aria-hidden="true"></span>', p.count)
+    : CROP_IMG[p.subcategory]
+      ? repeat(`<span><img class="crop-img" src="${CROP_IMG[p.subcategory]}" alt="" aria-hidden="true"></span>`, p.count)
+      : Array.from({ length: Math.max(1, p.count) }, (_, i) => `<span>${list[i % list.length]}</span>`).join('');
+  c.innerHTML = `<div class="crop-plants">${plants}</div>
     <div class="sign"><span class="crop-name">${escapeHtml(p.subcategory)}</span><br>
     <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button></div>`;
   return c;
 }
 
-const ANIMAL_GLYPH = { 'Dairy': '🐄', 'Silage': '🌾', 'Fish': '🐟' };
+// one glyph per grant. Dairy is not one animal: the herds are cattle and buffalo with goats
+// alongside, so the chain cycles species instead of stamping the same cow. Fish are the carp
+// actually sold in the Terai — rohu, catla (bhakur), mrigal (naini), pangas — as photo cutouts,
+// because no emoji reads as a Nepali market fish.
+// photos: Wikimedia Commons — Rohu (Labeo rohita) CC BY-SA 4.0 · Catla catla CC BY-SA 4.0 ·
+// Cirrhinus cirrhosus CC0 · Pangasius pangasius (India) CC BY-SA 3.0, background removed.
+const FISH_IMG = ['fish-rohu', 'fish-catla', 'fish-mrigal', 'fish-pangas']
+  .map(n => `assets/img/catalog/${n}.webp`);
+const ANIMAL_GLYPH = { 'Dairy': ['🐄', '🐃', '🐐', '🐄', '🐃', '🐐'], 'Silage': ['🌾'] };
+function glyphFor(p, i) {
+  if (p.subcategory === 'Fish') {
+    const src = FISH_IMG[i % FISH_IMG.length];
+    return `<img class="fish-img" src="${src}" alt="" decoding="async">`;
+  }
+  const list = ANIMAL_GLYPH[p.subcategory] || ['🐐'];
+  return list[i % list.length];
+}
 function animalFor(p) {
   const a = document.createElement('div');
   a.className = 'animal product-card';
   a.dataset.category = slug(p.subcategory);
   a.dataset.name = (p.name || '').toLowerCase();
-  a.style.setProperty('--size', Math.min(72, 42 + p.count * 4) + 'px');
-  a.innerHTML = `<span class="animal-emoji" aria-hidden="true">${ANIMAL_GLYPH[p.subcategory] || '🐐'}</span>
+  a.style.setProperty('--size', Math.min(72, Math.round(340 / Math.max(1, p.count))) + 'px');
+  const glyphs = Array.from({ length: Math.max(1, p.count) },
+    (_, i) => `<span class="animal-emoji" aria-hidden="true">${glyphFor(p, i)}</span>`).join('');
+  a.innerHTML = `<span class="animal-emojis">${glyphs}</span>
     <span class="animal-name">${escapeHtml(p.subcategory)}</span>
     <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button>`;
   return a;
 }
 
 const CRAFT_GLYPH = { 'Allo': '🪢' };   // 🪢 = rope/knot for allo & fibre
+// a hand-loadable sal-leaf plate (khali) — no emoji reads as one, and the drawn stand-in looked like a mat
+const CRAFT_IMG = { 'Handicraft': 'assets/img/catalog/sal-leaf-plate.webp' };
 function craftFor(p) {
   const c = document.createElement('div');
   c.className = 'craft product-card';
   c.dataset.category = slug(p.subcategory);
   c.dataset.name = (p.name || '').toLowerCase();
-  c.style.setProperty('--size', Math.min(64, 40 + p.count * 4) + 'px');
-  const art = p.subcategory === 'Handicraft'
-    ? '<span class="craft-emoji leaf-plate" aria-hidden="true"></span>'          // sal leaf plate, CSS art
-    : `<span class="craft-emoji" aria-hidden="true">${CRAFT_GLYPH[p.subcategory] || '🧺'}</span>`;
-  c.innerHTML = `${art}
+  c.style.setProperty('--size', Math.min(64, Math.round(300 / Math.max(1, p.count))) + 'px');
+  const art = CRAFT_IMG[p.subcategory]
+    ? repeat(`<span class="craft-emoji" aria-hidden="true"><img class="craft-img" src="${CRAFT_IMG[p.subcategory]}" alt=""></span>`, p.count)
+    : repeat(`<span class="craft-emoji" aria-hidden="true">${CRAFT_GLYPH[p.subcategory] || '🧺'}</span>`, p.count);
+  c.innerHTML = `<span class="craft-emojis">${art}</span>
     <span class="craft-name">${escapeHtml(p.subcategory)}</span>
     <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button>`;
   return c;
@@ -182,8 +212,8 @@ function cycleFor(p) {
   c.className = 'cycle-item product-card';
   c.dataset.category = slug(p.subcategory);
   c.dataset.name = (p.name || '').toLowerCase();
-  c.style.setProperty('--size', Math.min(58, 38 + p.count * 4) + 'px');
-  c.innerHTML = `<span class="cycle-emoji" aria-hidden="true">♻️</span>
+  c.style.setProperty('--size', Math.min(58, Math.round(300 / Math.max(1, p.count))) + 'px');
+  c.innerHTML = `<span class="cycle-emojis">${repeat('<span class="cycle-emoji" aria-hidden="true">♻️</span>', p.count)}</span>
     <span class="cycle-name">${escapeHtml(p.subcategory)}</span>
     <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button>`;
   return c;
@@ -203,11 +233,12 @@ function cycleFor(p) {
   head.innerHTML=`<span class="cat-icon" aria-hidden="true">${GROUP_ICON[name]||''}</span><span class="cat-name">${escapeHtml(name)}</span><span class="muted">${inGroup.length} chain${inGroup.length>1?'s':''}</span>`;
   const row=document.createElement('div');
   row.className = 'cat-row scene ' + (SCENE_CLASS[name] || '');
+  row.dataset.scene = name;
   inGroup.forEach((p)=>{ chainBySlug[slug(p.subcategory)]=p; row.appendChild(itemFor(name, p)); });
   g.appendChild(head); g.appendChild(row);
   if (SCENE_CLASS[name]) {
     const drawer=document.createElement('div');
-    drawer.className='roots-drawer'; drawer.hidden=true;
+    drawer.className='roots-drawer'; drawer.hidden=true; drawer.dataset.scene=name;
     drawer.innerHTML=`<div class="roots-head" aria-live="polite"></div>
       <table class="roots-table"><thead><tr><th scope="col">Organization</th><th scope="col">Grant title</th></tr></thead><tbody></tbody></table>`;
     g.appendChild(drawer);
@@ -247,7 +278,8 @@ function cycleFor(p) {
   // changes layout on open (no branches/strand elements in flow) — tree positions never change.
   const gridEl = document.getElementById('catalogGrid');
   const rootsDrawer = () => gridEl.querySelector('.roots-drawer');
-  function drawerFor(el) { const s = el.closest('.scene'); return s ? s.nextElementSibling : null; }
+  const drawerFor = el => { const s = el.closest('.scene');
+    return s ? gridEl.querySelector(`.roots-drawer[data-scene="${s.dataset.scene}"]`) : null; };
 function closeTrees(){
   gridEl.querySelectorAll('.product-card.open').forEach(o => {
     o.classList.remove('open');
@@ -267,6 +299,20 @@ function openTree(item){
   if(d && p){
     d.querySelector('.roots-head').textContent = `${p.subcategory} — ${p.count>1? p.count+' grants': '1 grant'}`;
     d.querySelector('.roots-table tbody').innerHTML = (p.rows||[]).map(r=>`<tr><td>${escapeHtml(r.org||'—')}</td><td>${escapeHtml(r.title||'—')}</td></tr>`).join('');
+    // the table belongs under the plot that was clicked, not at the end of the section.
+    // farm stacks its crops in a column, so the drawer drops in right after that crop row;
+    // row scenes (pasture/craft/circular) keep it after the row but slide it under the plot.
+    const row = item.closest('.scene');
+    if (getComputedStyle(row).flexDirection === 'column') {
+      d.style.marginLeft = ''; d.style.maxWidth = ''; d.style.marginTop = '0';
+      row.insertBefore(d, item.nextElementSibling);
+    } else if (!row.classList.contains('scene-forest')) {   // forest keeps the wide centred table
+      if (d.parentElement !== row.parentElement) row.parentElement.insertBefore(d, row.nextElementSibling);
+      const rr = row.getBoundingClientRect(), ir = item.getBoundingClientRect();
+      const w = Math.min(420, rr.width);
+      d.style.maxWidth = w + 'px';
+      d.style.marginLeft = Math.max(0, Math.min(rr.width - w, ir.left - rr.left + ir.width/2 - w/2)) + 'px';
+    }
     d.hidden = false;
   }
 }
@@ -303,8 +349,8 @@ else openTree(item);
       const head=row.previousElementSibling;
       if(head&&head.classList.contains('cat-heading')) head.classList.toggle('hidden',!any);
     });
-    // an open tree that just got filtered out takes its drawer with it
-    if(gridEl.querySelector('.tree.open.hidden')) closeTrees();
+    // an open plot that just got filtered out takes its drawer with it
+    if(gridEl.querySelector('.product-card.open.hidden')) closeTrees();
   }
 
   async function fetchCsvWithFallback(){
