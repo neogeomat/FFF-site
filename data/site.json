@@ -10,7 +10,7 @@
     {
       "end": 23,
       "unit": "Value Chains",
-      "label": "Non-timber forest products · Dairy · Vegetables · Agri products"
+      "label": "Sawn timber · NTFP · turmeric · ginger · biofertilizer · sal leaf · handicrafts · honey · silage"
     },
     {
       "end": 68,
@@ -24,40 +24,37 @@
     }
   ],
   "marquee": [
-    "Non-timber forest products",
-    "Dairy",
-    "Vegetables",
-    "Agri products",
-    "Fish",
-    "PGS",
-    "Sal leaf plates",
-    "Timber"
+    "Sawn timber",
+    "NTFPs and medicinal",
+    "Turmeric",
+    "Ginger",
+    "Forest-based biofertilizer",
+    "Sal leaf plate",
+    "Traditional and indigenous handicrafts",
+    "Honey",
+    "Safe agriculture products",
+    "Silage"
   ],
   "carousel": [
     {
       "num": "01",
-      "title": "Organizations transforming their territories",
-      "body": "FFF strengthens forest and farm producer organizations with financing, technical assistance and accompaniment to drive their own sustainable development solutions."
+      "title": "Collective strength",
+      "body": "Harnessing collective strength to amplify producers' voices through multi-stakeholder dialogue, while strengthening institutions through inclusive governance."
     },
     {
       "num": "02",
-      "title": "Forest governance that works",
-      "body": "Secure tenure, inclusive organizations and landscape planning put communities at the center of decisions."
+      "title": "Local business growth",
+      "body": "Accelerating local business growth by fostering entrepreneurship, accessing markets and finance, strengthening producers' positions in value chains, and embedding enterprise development services within apex producer organizations."
     },
     {
       "num": "03",
-      "title": "Value chains that add value locally",
-      "body": "From Timur and vegetables to dairy and NTFP — processing, quality and market access stay in the territory."
+      "title": "Resilient livelihoods and landscapes",
+      "body": "Building resilient livelihoods and landscapes through sustainable forest and farmland management and diversified production."
     },
     {
       "num": "04",
-      "title": "Resilience built with forests",
-      "body": "Restoration, agroforestry and climate adaptation protect livelihoods and biodiversity."
-    },
-    {
-      "num": "05",
-      "title": "Knowledge that travels",
-      "body": "Peer learning among producer organizations spreads what works across regions and countries."
+      "title": "Inclusive communication and learning",
+      "body": "Strengthening inclusive community communication and shared learning to improve access to social protection services."
     }
   ],
   "explore": [
@@ -94,19 +91,19 @@
   ],
   "voices": [
     {
-      "title": "From fire hazard to green gold — biofertiliser in Nawalpur",
+      "title": "From fire hazard to green growth",
       "region": "Nawalpur, Gandaki",
-      "href": "storymaps.html"
+      "href": "https://www.fao.org/newsroom/story/from-fire-hazard-to-green-gold/en"
     },
     {
-      "title": "Woodcarving empowers women in Makwanpur",
+      "title": "Woodcarving empowers women",
       "region": "Makwanpur, Bagmati",
-      "href": "storymaps.html"
+      "href": "https://www.fao.org/forest-farm-facility/news/detail/Woodcarving-empowers-women-in-Nepal-/en"
     },
     {
       "title": "Award-winning coffee transforms lives",
       "region": "Kavre, Bagmati",
-      "href": "storymaps.html"
+      "href": "https://www.fao.org/forest-farm-facility/news/detail/Award-winning-coffee-transforms-lives-in-Nepal/en"
     }
   ],
   "axes": [

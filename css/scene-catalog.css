@@ -152,24 +152,29 @@
 .scene-pasture .animal[data-category="dairy"]  { order: 0; background: none; box-shadow: none; }
 .scene-pasture .animal[data-category="silage"] { order: 1; margin: 0 auto; }
 .scene-pasture .animal[data-category="fish"]   { order: 2; margin-right: 6%; background: none; box-shadow: none; }
-/* the herd stands inside a barn: straw plank wall, red frame, white trim, gable roof over the box */
-.scene-pasture .animal[data-category="dairy"] .animal-emojis {
-  position: relative; max-width: 400px; padding: 14px 18px 16px; border-radius: 3px 3px 0 0;
-  background: repeating-linear-gradient(90deg, #cbb083 0 16px, #c0a375 16px 32px);
-  box-shadow: inset 0 0 0 4px #a8432f, inset 0 0 0 6px #f0e6d2,
-              inset 0 -12px 14px -10px rgba(80, 50, 20, 0.7), 0 8px 12px -6px rgba(25, 45, 20, 0.55); }
-.scene-pasture .animal[data-category="dairy"] .animal-emojis::before,
-.scene-pasture .animal[data-category="dairy"] .animal-emojis::after { content: ""; position: absolute;
-  clip-path: polygon(50% 0, 100% 100%, 0 100%); }
-.scene-pasture .animal[data-category="dairy"] .animal-emojis::before { left: -14px; right: -14px; top: -34px; height: 36px; background: #f0e6d2; }
-.scene-pasture .animal[data-category="dairy"] .animal-emojis::after  { left: -9px;  right: -9px;  top: -29px; height: 30px; background: #a8432f; }
+/* dairy: cow, goat and buffalo feed one milk jug, which fans out into dairy products */
+.scene-pasture .animal[data-category="dairy"] .dairy-flow { display: flex; align-items: center; gap: 10px; }
+.scene-pasture .dairy-herd { display: flex; flex-direction: column; align-items: center; }
+.scene-pasture .dairy-herd .animal-emoji { font-size: calc(var(--size, 46px) * 0.78); animation: none; }
+.scene-pasture .dairy-arrow { position: relative; flex: none; width: 26px; height: 2px;
+  background: #f5efe0; border-radius: 2px; }
+.scene-pasture .dairy-arrow::after { content: ""; position: absolute; right: -1px; top: -4px;
+  border-left: 7px solid #f5efe0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+.scene-pasture .dairy-jug { font-size: calc(var(--size, 46px) * 1.15); line-height: 1;
+  filter: drop-shadow(0 4px 3px rgba(20, 40, 15, 0.4)); }
+.scene-pasture .dairy-products { display: flex; flex-direction: column; gap: 4px; }
+.scene-pasture .dairy-product { display: flex; align-items: center; gap: 5px; padding: 3px 8px 3px 5px;
+  border-radius: 999px; font-size: 0.62rem; font-weight: 600; color: #f5efe0;
+  background: rgba(27, 45, 27, 0.82); white-space: nowrap; }
+.scene-pasture .dairy-product > span { font-size: calc(var(--size, 46px) * 0.42); line-height: 1; }
 /* cow and buffalo graze */
 .scene-pasture .animal-emoji { position: relative; font-size: var(--size, 46px); line-height: 1;
   animation: graze 5s ease-in-out infinite alternate; transform-origin: 50% 100%; }
 @keyframes graze { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(3deg) translateY(2px); } }
 /* fish are photo cutouts swimming in their own pond: no ripple/shadow trick, the PNG has its own edges */
 .scene-pasture .animal[data-category="fish"] .animal-emojis {
-  position: relative; max-width: 430px; gap: 6px 10px; padding: 18px 26px 20px; border-radius: 50%;
+  position: relative; max-width: 430px; gap: 6px 10px; padding: 18px 26px 20px;
+  border-radius: 56% 44% 52% 48% / 46% 54% 44% 56%;
   background: radial-gradient(ellipse at 50% 34%, #9ad8ee 0%, #5aa8cc 62%, #3f7fa6 100%);
   box-shadow: inset 0 8px 10px -6px rgba(255, 255, 255, 0.8), inset 0 -14px 18px -10px rgba(14, 48, 74, 0.6),
               0 6px 10px -6px rgba(20, 60, 30, 0.55); }
@@ -178,7 +183,7 @@
   filter: drop-shadow(0 3px 2px rgba(10, 40, 60, 0.45)); }
 /* a thin water veil over the photos so they read as submerged, not pasted on the blue ellipse */
 .scene-pasture .animal[data-category="fish"] .animal-emojis::after { content: ""; position: absolute; inset: 0;
-  z-index: 2; pointer-events: none; border-radius: 50%;
+  z-index: 2; pointer-events: none; border-radius: 56% 44% 52% 48% / 46% 54% 44% 56%;
   background: linear-gradient(to bottom, rgba(133, 205, 235, 0.45) 0%, rgba(90, 168, 204, 0.18) 45%, rgba(38, 96, 130, 0.3) 100%); }
 @keyframes fishjump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 /* fish photos carry their own shape and shadow, so the ripple element is gone */
@@ -218,7 +223,7 @@
   filter: drop-shadow(0 6px 4px rgba(40, 25, 10, 0.4)); }
 /* sal-leaf plate is a photo cutout (transparent edges), sized from the same --size as the emoji.
    It carries its own baked shadow, so the wrapper's drop-shadow is dropped (it used to fall on the badge) */
-.scene-craft .craft-img { display: block; height: var(--size, 44px); width: auto; }
+.scene-craft .craft-img { display: block; width: var(--size, 44px); height: var(--size, 44px); object-fit: cover; border-radius: 50%; box-shadow: 0 4px 7px -3px rgba(20, 30, 15, 0.55); }
 .scene-craft .craft-emoji:has(.craft-img) { filter: none; }
 .scene-craft .craft-emoji::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: -8px; height: 9px;
   background: radial-gradient(ellipse, rgba(30, 18, 6, 0.45), transparent 70%); border-radius: 50%; }

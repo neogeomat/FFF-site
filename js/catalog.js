@@ -181,9 +181,21 @@ function animalFor(p) {
   a.dataset.category = slug(p.subcategory);
   a.dataset.name = (p.name || '').toLowerCase();
   a.style.setProperty('--size', Math.min(72, Math.round(340 / Math.max(1, p.count))) + 'px');
-  const glyphs = Array.from({ length: Math.max(1, p.count) },
-    (_, i) => `<span class="animal-emoji" aria-hidden="true">${glyphFor(p, i)}</span>`).join('');
-  a.innerHTML = `<span class="animal-emojis">${glyphs}</span>
+  const inner = p.subcategory === 'Dairy'
+    ? `<div class="dairy-flow">
+        <span class="dairy-herd"><span class="animal-emoji" aria-hidden="true">🐄</span><span class="animal-emoji" aria-hidden="true">🐐</span><span class="animal-emoji" aria-hidden="true">🐃</span></span>
+        <span class="dairy-arrow" aria-hidden="true"></span>
+        <span class="dairy-jug" aria-hidden="true">🥛</span>
+        <span class="dairy-arrow" aria-hidden="true"></span>
+        <span class="dairy-products">
+          <span class="dairy-product"><span aria-hidden="true">🧀</span>Cheese</span>
+          <span class="dairy-product"><span aria-hidden="true">🍦</span>Ice cream</span>
+          <span class="dairy-product"><span aria-hidden="true">🥣</span>Yogurt</span>
+        </span>
+      </div>`
+    : `<span class="animal-emojis">${Array.from({ length: Math.max(1, p.count) },
+        (_, i) => `<span class="animal-emoji" aria-hidden="true">${glyphFor(p, i)}</span>`).join('')}</span>`;
+  a.innerHTML = `${inner}
     <span class="animal-name">${escapeHtml(p.subcategory)}</span>
     <button type="button" class="grant-toggle" aria-expanded="false">${p.count > 1 ? p.count + ' grants' : '1 grant'} ▾</button>`;
   return a;
@@ -191,7 +203,7 @@ function animalFor(p) {
 
 const CRAFT_GLYPH = { 'Allo': '🪢' };   // 🪢 = rope/knot for allo & fibre
 // a hand-loadable sal-leaf plate (khali) — no emoji reads as one, and the drawn stand-in looked like a mat
-const CRAFT_IMG = { 'Handicraft': 'assets/img/catalog/sal-leaf-plate.webp' };
+const CRAFT_IMG = { 'Handicraft': 'assets/img/catalog/sal-leaf-plate.webp', 'Allo': 'assets/img/catalog/doko.webp' };
 function craftFor(p) {
   const c = document.createElement('div');
   c.className = 'craft product-card';

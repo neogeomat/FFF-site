@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-<header class="site-header">
+<header class="site-header" id="site-header">
   <div class="inner">
     <a class="brand-lockup" href="index.html" aria-label="FAO and Forest and Farm Facility">
       <img src="assets/img/logo-fao.png" alt="FAO — Food and Agriculture Organization of the United Nations" class="logo-fao">
@@ -19,7 +19,7 @@
     <button class="nav-toggle" aria-label="Menu"><span></span></button>
     <nav class="nav" id="siteNav">
       <a href="index.html" class="active">Home</a>
-      <a href="our-change.html">Our Change</a>
+      <a href="our-change.html">Change Led by FFFPO Action</a>
       <a href="sustainable-management.html">Sustainable Management</a>
       <a href="catalog.html">Catalog</a>
       <a href="storymaps.html">Story Maps</a>
@@ -30,7 +30,7 @@
 </header>
 
 <!-- Web Map — first section (grantee map via Webmap submodule iframe; ?embed=1 hides its inner header) -->
-<section class="section webmap-section" aria-label="Web map">
+<section class="section webmap-section" id="where-we-work" aria-label="Web map">
   <div class="container">
     <p class="eyebrow">Web Map</p>
     <h2>Where FFF works in Nepal</h2>
@@ -52,8 +52,8 @@
     <div class="hero-scrim"></div>
   </div>
   <div class="container hero-content">
-    <h1>Productive forests, <em>resilient territories</em></h1>
-    <p class="subtitle">Forests host resources, livelihoods and biodiversity. We work with forest and farm producer organizations to turn local solutions into lasting change across Nepal.</p>
+    <h1>Stronger producer organizations. <em>Resilient landscapes.</em> Better livelihoods.</h1>
+    <p class="subtitle">The Forest and Farm Facility (FFF) Nepal strengthens forest and farm producer organizations to build sustainable enterprises, influence decisions and improve livelihoods. By connecting producers with knowledge, markets, finance and partnerships, FFF supports inclusive rural economies and climate-resilient landscapes.</p>
     <div class="hero-actions">
       <a class="btn btn-gold" href="our-change.html">Discover FFF →</a>
       <a class="btn btn-ghost" href="catalog.html">Explore organizations</a>
@@ -61,16 +61,16 @@
     <div class="hero-dots" aria-label="Hero slides"></div>
     <div class="stats-bar">
       <div class="stat"><strong data-end="5">0</strong><span>Provinces</span><small>Bagmati · Gandaki · Lumbini · Madhesh · Sudurpashchim</small></div>
-      <div class="stat"><strong data-end="9">0</strong><span>Value Chains</span><small>Timur · Vegetables · Dairy · NTFP</small></div>
+      <div class="stat"><strong data-end="23">0</strong><span>Value Chains</span><small>Sawn timber · NTFP · turmeric · ginger · biofertilizer · sal leaf · handicrafts · honey · silage</small></div>
       <div class="stat"><strong data-end="68">0</strong><span>Organizations</span><small>Implementing partners</small></div>
       <div class="stat"><strong data-end="73">0</strong><span>Agreements</span><small>Direct investment (LoA + DBG)</small></div>
     </div>
   </div>
 </section>
 
-<div class="marquee" aria-hidden="true"><div class="marquee-inner"><span>Timur</span><span>Vegetables</span><span>Dairy</span><span>Bamboo</span><span>Sal Leaf</span><span>NTFP</span><span>Turmeric</span><span>Allo</span><span>Timur</span><span>Vegetables</span><span>Dairy</span><span>Bamboo</span><span>Sal Leaf</span><span>NTFP</span><span>Turmeric</span><span>Allo</span></div></div>
+<div class="marquee" aria-hidden="true"><div class="marquee-inner"><span>Sawn Timber</span><span>NTFPs &amp; Medicinal</span><span>Turmeric</span><span>Ginger</span><span>Forest Biofertilizer</span><span>Sal Leaf Plate</span><span>Handicrafts</span><span>Honey</span><span>Safe Agriculture</span><span>Silage</span><span>Sawn Timber</span><span>NTFPs &amp; Medicinal</span><span>Turmeric</span><span>Ginger</span><span>Forest Biofertilizer</span><span>Sal Leaf Plate</span><span>Handicrafts</span><span>Honey</span><span>Safe Agriculture</span><span>Silage</span></div></div>
 
-<section class="section section-dark">
+<section class="section section-dark" id="how-we-drive-change">
   <div class="container">
     <p class="eyebrow">Our action</p>
     <h2 class="reveal">How we drive change</h2>
@@ -78,15 +78,15 @@
 
     <div class="carousel" style="margin-top:22px">
       <div class="carousel-main">
-        <img src="assets/img/KLL Photo/Indigenous woemen-sal leaf plate 3.JPG" alt="Indigenous woemen-sal leaf plate 3" />
-        <img src="assets/img/KLL Photo/Allo processing.jpg" alt="Allo processing" />
-        <img src="assets/img/KLL Photo/Forest mgmt practices.jpg" alt="Forest mgmt practices" />
-        <img src="assets/img/KLL Photo/women cooperative-agrivalue chain 1.jpg" alt="women cooperative-agrivalue chain 1" />
+        <img src="assets/img/deck/drive-dialogue.jpg" alt="Community members meeting under trees to discuss forest management" />
+        <img src="assets/img/deck/drive-enterprise.jpg" alt="Women producing packaged forest products in a green processing facility" />
+        <img src="assets/img/deck/drive-resilience.jpg" alt="Women working in a restored forest landscape" />
+        <img src="assets/img/deck/drive-inclusion.jpg" alt="Women walking together through a community forest" />
       </div>
       <div class="carousel-copy">
         <div class="kicker" id="carouselNum">01</div>
-        <h3 id="carouselTitle">Organizations transforming their territories</h3>
-        <p id="carouselBody" class="muted">FFF strengthens forest and farm producer organizations with financing, technical assistance and accompaniment to drive their own sustainable development solutions.</p>
+        <h3 id="carouselTitle">Collective strength</h3>
+        <p id="carouselBody" class="muted">Harnessing collective strength to amplify producers' voices through multi-stakeholder dialogue, while strengthening institutions through inclusive governance.</p>
         <div class="progress"><i id="carouselProgress" style="width:20%"></i></div>
         <div class="carousel-controls">
           <button id="carouselPrev" aria-label="Previous">‹</button>
@@ -98,35 +98,56 @@
   </div>
 </section>
 
-<section class="section section-warm">
+<section class="section section-warm" id="voices">
   <div class="container">
     <p class="eyebrow">Testimonials</p>
     <h2 class="reveal">Voices of the forests</h2>
     <p class="lead">Producers tell what has changed in their territories.</p>
     <div class="voices-grid" style="margin-top:18px">
       <div class="voice">
-        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=700&h=500&fit=crop" alt="Community forest in Nepal — Nawalpur" />
-        <span class="region">Nawalpur</span><h3>From fire hazard to green gold</h3>
+        <img src="assets/img/deck/voice-biofertilizer.jpg" alt="Woman holding a bag of organic biofertilizer made from forest biomass" />
+        <span class="region">Nawalpur</span><h3>From fire hazard to green growth</h3>
+        <p class="muted">Women in Binayi Triveni turn fire-prone forest undergrowth into organic fertilizer, creating jobs while reducing wildfire risks.</p>
+        <a href="https://www.fao.org/newsroom/story/from-fire-hazard-to-green-gold/en" target="_blank" rel="noopener" style="color:var(--gold); font-weight:600">Read the story →</a>
       </div>
       <div class="voice">
-        <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=700&h=500&fit=crop" alt="Wood workshop — Makwanpur" />
+        <img src="assets/img/deck/voice-woodcarving.jpg" alt="Woman artisan holding a handcrafted wooden pot made from sawmill offcuts" />
         <span class="region">Makwanpur</span><h3>Woodcarving empowers women</h3>
+        <p class="muted">Women artisans in Piple-Pokhara turn forest wood and sawmill offcuts into handcrafted products, earning incomes and preserving traditional skills.</p>
+        <a href="https://www.fao.org/forest-farm-facility/news/detail/Woodcarving-empowers-women-in-Nepal-/en" target="_blank" rel="noopener" style="color:var(--gold); font-weight:600">Read the story →</a>
       </div>
       <div class="voice">
-        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=700&h=500&fit=crop" alt="Coffee cooperative — Kavre" />
+        <img src="assets/img/deck/voice-coffee.jpg" alt="Hands holding freshly harvested coffee cherries over a basket" />
         <span class="region">Kavre</span><h3>Award-winning coffee transforms lives</h3>
+        <p class="muted">Nepal's coffee producers grow a brighter future through climate-resilient farming, local roasting and stronger market connections.</p>
+        <a href="https://www.fao.org/forest-farm-facility/news/detail/Award-winning-coffee-transforms-lives-in-Nepal/en" target="_blank" rel="noopener" style="color:var(--gold); font-weight:600">Read the story →</a>
       </div>
     </div>
   </div>
 </section>
 
-<footer class="site-footer">
+<section class="section section-dark" id="context">
+  <div class="container grid-2">
+    <div>
+      <p class="eyebrow">Since 2012</p>
+      <h2>Producer organizations, lasting results</h2>
+      <p>FFF support has enabled Forest and Farm Producer Organisations (FFFPOs) to achieve significant results in gaining access to markets and better prices, leveraging financial resources, policy changes and tenure security, and improving livelihoods.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Why forests matter</p>
+      <h2>1.5 billion smallholders</h2>
+      <p>More than 1.5 billion smallholders around the world depend on forest landscapes for their food and livelihoods. The Forest and Farm Facility (FFF) is a programme hosted by the Food and Agriculture Organization of the United Nations (FAO), in partnership with IIED and Agricord, that supports forest and farm producer organizations to organise, connect and develop new markets and opportunities.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer">
   <div class="container footer-grid">
     <div>
       <div class="brand" style="color:var(--cream)"><span class="brand-mark">F</span><span>Forest Farm Facility</span></div>
       <p style="color:var(--text-cream); margin-top:10px">A partnership of FAO, IIED, IUCN and AgriCord. In Nepal, implemented with producer organizations across Bagmati, Gandaki, Lumbini, Madhesh and Sudurpashchim.</p>
     </div>
-    <div class="foot-links"><h4>Explore</h4><a href="our-change.html">Our Change</a><a href="catalog.html">Catalog</a></div>
+    <div class="foot-links"><h4>Explore</h4><a href="our-change.html">Change Led by FFFPO Action</a><a href="catalog.html">Catalog</a></div>
     <div class="foot-links"><h4>Resources</h4><a href="Webmap/index.html">Web Map</a><a href="storymaps.html">Story Maps</a><a href="https://openknowledge.fao.org/" target="_blank" rel="noopener">FAO Open Knowledge</a><a href="sustainable-management.html">Sustainable Management</a></div>
   </div>
 
@@ -134,11 +155,10 @@
 
 <script>
 window.__CAROUSEL__ = [
-  { num:"01", title:"Organizations transforming their territories", body:"FFF strengthens forest and farm producer organizations with financing, technical assistance and accompaniment to drive their own sustainable development solutions." },
-  { num:"02", title:"Forest governance that works", body:"Secure tenure, inclusive organizations and landscape planning put communities at the center of decisions." },
-  { num:"03", title:"Value chains that add value locally", body:"From allo and coffee to honey and turmeric — processing, quality and market access stay in the territory." },
-  { num:"04", title:"Resilience built with forests", body:"Restoration, agroforestry and climate adaptation protect livelihoods and biodiversity." },
-  { num:"05", title:"Knowledge that travels", body:"Peer learning among producer organizations spreads what works across regions and countries." }
+  { num:"01", title:"Collective strength", body:"Harnessing collective strength to amplify producers' voices through multi-stakeholder dialogue, while strengthening institutions through inclusive governance." },
+  { num:"02", title:"Local business growth", body:"Accelerating local business growth by fostering entrepreneurship, accessing markets and finance, strengthening producers' positions in value chains, and embedding enterprise development services within apex producer organizations." },
+  { num:"03", title:"Resilient livelihoods and landscapes", body:"Building resilient livelihoods and landscapes through sustainable forest and farmland management and diversified production." },
+  { num:"04", title:"Inclusive communication and learning", body:"Strengthening inclusive community communication and shared learning to improve access to social protection services." }
 ];
 </script>
 <script src="js/main.js"></script>
